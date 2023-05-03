@@ -2,7 +2,12 @@
 
 # Anime Site
 
-- [Site](https://animegamer4422.github.io/Test-Anime-Site/)
+<p align="center">
+  <a href="https://user.github.io/Test-Anime-Site/" style="font-size: 24px; font-weight: bold; text-decoration: none;">
+    View Site
+  </a>
+</p>
+
 
 Anime Site is a web application that allows users to search for their favorite anime series and watch video episodes. The site is built using HTML, CSS, and JavaScript, and utilizes the Consumet API to fetch anime information and images.
 
