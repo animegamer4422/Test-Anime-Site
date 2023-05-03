@@ -3,7 +3,7 @@
 # Anime Site
 
 <p align="center">
-  <a href="https://user.github.io/Test-Anime-Site/" style="font-size: 24px; font-weight: bold; text-decoration: none;">
+  <a href="https://animegamer4422.github.io/Test-Anime-Site/" style="font-size: 24px; font-weight: bold; text-decoration: none;">
     View Site
   </a>
 </p>
