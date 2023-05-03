@@ -9,7 +9,7 @@ Screenshot-1
 ![Anime Site Screenshot 1](./Screenshot-1.png)
 
 Screenshot-2
-![Anime Site Screenshot 2](./Screenshot-1.png)
+![Anime Site Screenshot 2](./Screenshot-2.jpg)
 
 ## Features
 
