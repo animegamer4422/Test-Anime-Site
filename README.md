@@ -4,7 +4,8 @@
 
 Anime Site is a web application that allows users to search for their favorite anime series and watch video episodes. The site is built using HTML, CSS, and JavaScript, and utilizes the Consumet API to fetch anime information and images.
 
-![Anime Site Screenshot](screenshot.png)
+![Anime Site Screenshot 1](screenshot-1.png)
+![Anime Site Screenshot 2](screenshot-1.png)
 
 ## Features
 
@@ -16,33 +17,7 @@ Anime Site is a web application that allows users to search for their favorite a
 
 To set up the Anime Site locally, follow these steps:
 
-1. Clone the repository:
-
-
-Certainly! Here's a basic template for a README file for your Anime Site project. You can modify it as needed to fit your project's specifics.
-
-vbnet
-Copy code
-# Anime Site
-
-Anime Site is a web application that allows users to search for their favorite anime series and watch video episodes. The site is built using HTML, CSS, and JavaScript, and utilizes the Consumet API to fetch anime information and images.
-
-![Anime Site Screenshot](screenshot.png)
-
-## Features
-
-- Search for anime series by name
-- Responsive design that adapts to different screen sizes
-- Video player with full control options
-
-## Installation
-
-To set up the Anime Site locally, follow these steps:
-
-1. Clone the repository:
-
-git clone https://github.com/your-username/anime-site.git
-
+1. Clone the repository: https://github.com/animegamer4422/Test-Anime-Site
 
 2. Open the `index.html` file in your favorite web browser.
 
