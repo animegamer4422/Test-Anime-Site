@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Anime Site</title>
 	<link rel="stylesheet" href="https://cdn.plyr.io/3.6.8/plyr.css" />
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
@@ -17,21 +18,25 @@
 		</div>
 	</header>
 	<main>
-        <section class="search-section">
-            <div class="container">
-              <h2>Search Anime</h2>
-              <form action="" method="get">
-                <input type="search" name="search" placeholder="Search for Anime...">
-                <button type="submit">Search</button>
-              </form>
-            </div>
-          </section>          
+    <section class="search-section">
+      <div class="container">
+        <h2>Search Anime</h2>
+        <form id="search-form" action="" method="get">
+          <input type="search" name="search" placeholder="Search for Anime...">
+          <button type="submit">Search</button>
+        </form>
+        <div id="search-results"></div>
+      </div>
+    </section>
 
-        <section class="video-section">
+    <button id="show-video">Show Video</button>
+            
+
+        <section class="video-section" id="video-section">
             <div class="container">
               <h2>Video Section</h2>
               <video id="player2" playsinline controls>
-                <source src="https://eu-05.files.nextcdn.org/get/05/16/02bb9df81bc3d2e1ba8c332ae25dc03d5e821d7d7344beea86cd28e35d1d6d6b?file=AnimePahe_Sousei_no_Onmyouji_-_01_1080p_HorribleSubs.mp4&token=cALf2Yn0XXcTsIZawfy82g&expires=1682156428" type="video/webm"/>
+                <source src="https://eu-05.files.nextcdn.org/get/05/16/02bb9df81bc3d2e1ba8c332ae25dc03d5e821d7d7344beea86cd28e35d1d6d6b?file=AnimePahe_Sousei_no_Onmyouji_-_01_1080p_HorribleSubs.mp4&token=5ga3wsP1edKWutwk9wmSrQ&expires=1683154315" type="video/mp4"/>
               </video>
             </div>
             <script>
@@ -57,6 +62,52 @@
             </script>
           </section>
 	</main>
+
+  <script>
+    const showVideoButton = document.getElementById('show-video');
+    const videoSection = document.getElementById('video-section');
+  
+    showVideoButton.addEventListener('click', () => {
+      videoSection.style.display = videoSection.style.display === 'none' ? 'block' : 'none';
+    });
+  
+    const searchForm = document.getElementById('search-form');
+    const searchResults = document.getElementById('search-results');
+  
+    searchForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+  
+      const query = event.target.search.value;
+      const pageNumber = 1; // Update this value if you want to handle pagination.
+      const apiUrl = `https://api.consumet.org/anime/zoro/${query}?page=${pageNumber}`;
+  
+      try {
+        const response = await fetch(apiUrl);
+  
+        if (response.ok) {
+          const data = await response.json();
+          displayImages(data.results);
+        } else {
+          console.error('Error fetching data:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    });
+  
+    function displayImages(results) {
+      searchResults.innerHTML = ''; // Clear previous results
+  
+      results.forEach((item) => {
+        const img = document.createElement('img');
+        img.src = item.image;
+        img.alt = item.title;
+        img.title = item.title;
+        img.classList.add('search-result-image'); // Add a class for styling
+        searchResults.appendChild(img);
+      });
+    }
+  </script>
 
 	<footer>
 		<div class="footer-wrapper">
