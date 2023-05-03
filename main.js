@@ -24,16 +24,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   
     function displayImages(results) {
-      searchResults.innerHTML = ''; // Clear previous results
+        searchResults.innerHTML = ''; // Clear previous results
+      
+        results.forEach((item) => {
+          const imgContainer = document.createElement('div'); // Create a container for the image and name
+          const img = document.createElement('img');
+          img.src = item.image;
+          img.alt = item.title;
+          img.title = item.title;
+          img.classList.add('search-result-image'); // Add a class for styling
+          img.addEventListener('click', () => {
+            sessionStorage.setItem('selectedAnime', JSON.stringify(item));
+            window.location.href = 'anime-details.html';
+          });
+      
+          const name = document.createElement('span'); // Create an element for the name
+          name.textContent = item.title;
+          name.classList.add('search-result-name'); // Add a class for styling
+      
+          imgContainer.appendChild(img); // Append the image and name to the container
+          imgContainer.appendChild(name);
+      
+          searchResults.appendChild(imgContainer); // Append the container to the searchResults container
+        });
+      }        
+    });
+
   
-      results.forEach((item) => {
-        const img = document.createElement('img');
-        img.src = item.image;
-        img.alt = item.title;
-        img.title = item.title;
-        img.classList.add('search-result-image'); // Add a class for styling
-        searchResults.appendChild(img);
-      });
-    }
-  });
+
   

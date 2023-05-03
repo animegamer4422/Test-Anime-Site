@@ -13,7 +13,9 @@
 <body>
 	<header>
 		<div class="header-wrapper">
-			<div class="logo">Anime Site</div>
+            <a href="index.html">
+                <div class="logo">Anime Site</div>
+            </a>
 		</div>
 	</header>
 	<main>
@@ -21,30 +23,53 @@
 			<div class="container">
 				<h2>Video Section</h2>
 				<video id="player2" playsinline controls>
-					<source src="https://eu-05.files.nextcdn.org/get/05/16/02bb9df81bc3d2e1ba8c332ae25dc03d5e821d7d7344beea86cd28e35d1d6d6b?file=AnimePahe_Sousei_no_Onmyouji_-_01_1080p_HorribleSubs.mp4&token=5ga3wsP1edKWutwk9wmSrQ&expires=1683154315" type="video/mp4"/>
+					<source id="video-source" src="" type="video/webm"/>
 				</video>
 			</div>
-			<script>
-				const player = new Plyr('#player2', {
-					controls: [
-						'play-large',
-						'rewind',
-						'play',
-						'fast-forward',
-						'progress',
-						'current-time',
-						'duration',
-						'mute',
-						'volume',
-						'quality',
-						'captions',
-						'settings',
-						'pip',
-						'airplay',
-						'fullscreen'
-					],
-				});
-			</script>
+			
+            <script>
+                // Get the selected episode URL from sessionStorage
+                const selectedEpisodeUrl = sessionStorage.getItem('selectedEpisodeUrl');
+              
+                // Check if the URL is set
+                if (selectedEpisodeUrl) {
+                  // Print the URL to the console for debugging
+                  console.log('Episode URL from sessionStorage:', selectedEpisodeUrl);
+              
+                  const video = document.querySelector('#player2');
+                  const source = document.createElement('source');
+                  source.src = selectedEpisodeUrl;
+                  source.type = 'application/vnd.apple.mpegurl';
+                  video.appendChild(source);
+                  video.load();
+              
+                  // Initialize the Plyr video player
+                  const player = new Plyr('#player2', {
+                    controls: [
+                      'play-large',
+                      'rewind',
+                      'play',
+                      'fast-forward',
+                      'progress',
+                      'current-time',
+                      'duration',
+                      'mute',
+                      'volume',
+                      'quality',
+                      'captions',
+                      'settings',
+                      'pip',
+                      'airplay',
+                      'fullscreen',
+                    ],
+                  });
+                } else {
+                  // Redirect back to index.html if no episode URL is found
+                  window.location.href = 'index.html';
+                }
+              </script>
+              
+            
 		</section>
 	</main>
 

@@ -1,0 +1,185 @@
+/* General styles */
+body {
+    background-color:  #282a36;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  h2 {
+    color: #ff69b4;
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+  
+  /* Header styles */
+  .header-wrapper {
+    background: linear-gradient(90deg, #ff69b4, #ff1493);
+    padding: 10px 20px;
+  }
+  
+  .logo {
+    font-size: 24px;
+    font-weight: 500;
+    color: #fff;
+  }
+  .logo span {
+    text-decoration: none;
+  }  
+
+
+  .anime-description {
+    background-color: #162032;
+    padding: 15px;
+    border-radius: 8px;
+    max-height: 200px;
+    overflow-y: scroll;
+    padding-bottom: 40px;
+    margin-left: 30px;
+    margin-right: 30px;
+  }
+  
+  .anime-description>.data {
+    font-size: 25px;
+    margin: 15px 0;
+    word-spacing: 5px;
+    font-weight: 600;
+  }
+  
+  .anime-description>p {
+    font-size: 18px;
+    font-weight: 500;
+    max-width: 900px;
+  }
+  
+  /* Search section styles */
+  .search-section {
+    background-color:  #282a36;
+    padding: 20px 0;
+  }
+  
+  #search-form {
+    display: flex;
+    justify-content: center;
+  }
+  
+  input[type="search"] {
+    padding: 10px;
+    border: none;
+    border-radius: 5px 0 0 5px;
+    font-size: 16px;
+    background-color: #fff;
+  }
+  
+  button[type="submit"] {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    background-color: #ff69b4;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #ff1493;
+  }
+  
+  /* Search results styles */
+  #search-results {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .search-result-image {
+    width: 150px;
+    height: auto;
+    margin: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Footer styles */
+  .footer-wrapper {
+    background: linear-gradient(90deg, #ff69b4, #ff1493);
+    padding: 10px 20px;
+    text-align: center;
+  }
+  
+  #video-section {
+    display: none;
+      margin-top: 20px;
+      display: flex;
+      padding-left: 5rem;
+      padding-right: 5rem;
+      transition: .5s ease-in-out;
+      flex-direction: column;
+    }
+
+  .description {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #f5f5f5;
+    margin-bottom: 20px;
+  }
+  
+  .episode-list {
+    background-color: #162032;
+    padding: 20px 30px;
+    border-radius: 10px;
+    flex-direction: row;
+    margin-top: 5%;
+    flex-wrap: wrap;
+    max-height: 400px;
+    max-width: 900px;
+    overflow: auto;
+  }
+
+.list-box {
+  width: 80%;
+}
+
+  .episode-button {
+      width: 50px;
+      padding: 10px;
+      margin: 10px 8px;
+      font-size: 15px;
+      font-weight: 600;
+      background-color: rgb(51, 51, 154);
+      border-radius: 6px;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: center;
+    }
+  
+  .episode-button:hover {
+    background-color: #e91e63;
+  }
+  
+  
+  /* Media queries for responsive design */
+@media (max-width: 768px) {
+    #search-form {
+      flex-direction: column;
+    }
+  
+    input[type="search"] {
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+  
+    button[type="submit"] {
+      border-radius: 5px;
+    }
+}
