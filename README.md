@@ -4,8 +4,8 @@
 
 Anime Site is a web application that allows users to search for their favorite anime series and watch video episodes. The site is built using HTML, CSS, and JavaScript, and utilizes the Consumet API to fetch anime information and images.
 
-![Anime Site Screenshot 1](screenshot-1.png)
-![Anime Site Screenshot 2](screenshot-1.png)
+![Anime Site Screenshot 1](./screenshot-1.png)
+![Anime Site Screenshot 2](./screenshot-1.png)
 
 ## Features
 
