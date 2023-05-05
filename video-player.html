@@ -8,7 +8,6 @@
 	<link rel="stylesheet" href="https://cdn.plyr.io/3.6.8/demo.css" />
 	<link rel="stylesheet" href="styles.css" />
 	<script src="https://cdn.plyr.io/3.6.8/plyr.js"></script>
-  <script src="https://cdn.jsdelivr.net/hls.js/latest/hls.js"></script>
 </head>
 
 <body>
@@ -39,27 +38,10 @@
           const video = document.querySelector('#player2');
           const source = document.createElement('source');
           source.src = selectedEpisodeUrl;
-          
-          // Check if HLS is supported
-          if (Hls.isSupported()) {
-            source.type = 'application/x-mpegURL'; // Update the source type
-            video.appendChild(source);
-            video.load();
-          
-            // Initialize the HLS video player
-            const hls = new Hls();
-            hls.loadSource(selectedEpisodeUrl);
-            hls.attachMedia(video);
-            hls.on(Hls.Events.MANIFEST_PARSED,function() {
-              video.play();
-            });
-          } else {
-            // Fallback to progressive download
-            source.type = 'video/mp4'; // Update the source type
-            video.appendChild(source);
-            video.load();
-          }
-          
+          source.type = 'application/x-mpegURL'; // Update the source type
+          video.appendChild(source);
+          video.load();
+      
           // Initialize the Plyr video player
           const player = new Plyr('#player2', {
             controls: [
