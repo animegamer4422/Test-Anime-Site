@@ -3,11 +3,10 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Anime Site - Video Player</title>
-	<link rel="stylesheet" href="https://cdn.plyr.io/3.6.8/plyr.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/artplayer/2.5.1/artplayer.css" />
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
-	<link rel="stylesheet" href="https://cdn.plyr.io/3.6.8/demo.css" />
 	<link rel="stylesheet" href="styles.css" />
-	<script src="https://cdn.plyr.io/3.6.8/plyr.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/artplayer/2.5.1/artplayer.js"></script>
 </head>
 
 <body>
@@ -19,56 +18,36 @@
 		</div>
 	</header>
 	<main>
-    <section class="video-section" id="video-section">
-      <div class="container">
-        <h2>Video Section</h2>
-        <video id="player2" playsinline controls>
-        </video>
-      </div>
-    
-      <script>
-        // Get the selected episode URL from sessionStorage
-        const selectedEpisodeUrl = sessionStorage.getItem('selectedEpisodeUrl');
-      
-        // Check if the URL is set
-        if (selectedEpisodeUrl) {
-          // Print the URL to the console for debugging
-          console.log('Episode URL from sessionStorage:', selectedEpisodeUrl);
-      
-          const video = document.querySelector('#player2');
-          const source = document.createElement('source');
-          source.src = selectedEpisodeUrl;
-          source.type = 'application/x-mpegURL'; // Update the source type
-          video.appendChild(source);
-          video.load();
-      
-          // Initialize the Plyr video player
-          const player = new Plyr('#player2', {
-            controls: [
-              'play-large',
-              'rewind',
-              'play',
-              'fast-forward',
-              'progress',
-              'current-time',
-              'duration',
-              'mute',
-              'volume',
-              'quality',
-              'captions',
-              'settings',
-              'pip',
-              'airplay',
-              'fullscreen',
-            ],
-          });
-        } else {
-          // Redirect back to index.html if no episode URL is found
-          window.location.href = 'index.html';
-        }
-      </script>
-      
-      
+		<section class="video-section" id="video-section">
+			<div class="container">
+				<h2>Video Section</h2>
+				<div id="artplayer" class="artplayer"></div>
+			</div>
+			
+            <script>
+                // Get the selected episode URL from sessionStorage
+                const selectedEpisodeUrl = sessionStorage.getItem('selectedEpisodeUrl');
+              
+                // Check if the URL is set
+                if (selectedEpisodeUrl) {
+                  // Print the URL to the console for debugging
+                  console.log('Episode URL from sessionStorage:', selectedEpisodeUrl);
+              
+                  // Initialize the Art Player video player
+                  const art = new Artplayer({
+                    container: '#artplayer',
+                    url: selectedEpisodeUrl,
+                    autoplay: false,
+                    poster: '',
+                    loop: false,
+                  });
+                } else {
+                  // Redirect back to index.html if no episode URL is found
+                  window.location.href = 'index.html';
+                }
+              </script>
+              
+            
 		</section>
 	</main>
 
