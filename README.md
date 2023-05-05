@@ -20,7 +20,13 @@ Anime Site is a web application that allows users to search for their favorite a
 ![Anime Site Screenshot 1](./Screenshot-1.png)
 
 - Screenshot-2
-![Anime Site Screenshot 2](./Screenshot-2.jpg)
+![Anime Site Screenshot 2](./Screenshot-2.png)
+
+- Screenshot-3
+![Anime Site Screenshot 3](./Screenshot-3.png)
+
+- Screenshot-4
+![Anime Site Screenshot 4](./Screenshot-4.png)
 
 ## Features
 
