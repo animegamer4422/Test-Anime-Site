@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const selectedAnime = JSON.parse(sessionStorage.getItem('selectedAnime'));
 
   if (selectedAnime) {
-    const apiUrl = `https://api.consumet.org/anime/zoro/info?id=${selectedAnime.id}`;
+    const apiUrl = `https://api.consumet.org/anime/gogoanime/info/${selectedAnime.id}`;
 
     try {
       const response = await fetch(apiUrl);
@@ -38,12 +38,12 @@ async function displayDetails(anime) {
   for (const episode of anime.episodes) {
     const listItem = document.createElement('li');
     const link = document.createElement('a');
-    link.textContent = `Episode ${episode.number}: ${episode.title}`;
+    link.textContent = `Episode ${episode.number}`;
 
     // Fetch the server URL for the episode
     const episodeId = episode.id;
-    const serverName = 'vidcloud'; // You can change this to any of the available server names
-    const apiUrl = `https://api.consumet.org/anime/zoro/watch?episodeId=${episodeId}&server=${serverName}`;
+    const serverName = 'vidstreaming'; // You can change this to any of the available server names
+    const apiUrl = `https://api.consumet.org/anime/gogoanime/watch/${episodeId}?server=${serverName}`;
 
     try {
       const response = await fetch(apiUrl);

@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
       const query = event.target.search.value;
       const pageNumber = 1; // Update this value if you want to handle pagination.
-      const apiUrl = `https://api.consumet.org/anime/zoro/${query}?page=${pageNumber}`;
+      const apiUrl = `https://api.consumet.org/anime/gogoanime/${query}?page=${pageNumber}`;
   
       try {
         const response = await fetch(apiUrl);
