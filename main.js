@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       pagination.classList.add('hidden');
     }
-  }  
+  }
 
   function updatePaginationButtons() {
     prevPageButton.disabled = pageNumber <= 1;
