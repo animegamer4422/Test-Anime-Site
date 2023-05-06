@@ -73,6 +73,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
       togglePaginationVisibility(true);
     } else {
+      const noResultsMessage = document.createElement('p');
+      noResultsMessage.textContent = 'No results found. Please try a different search term.';
+      searchResults.appendChild(noResultsMessage);
       togglePaginationVisibility(false);
     }
   }
