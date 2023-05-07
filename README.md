@@ -49,7 +49,7 @@ To search for anime series, simply type the name of the series into the search b
 ## Dependencies
 
 - [Plyr](https://plyr.io/): A simple, accessible, and customizable HTML5 media player
-- [Consumet API](https://api.consumet.org/): An API for fetching anime information and images
+- [Consumet API](https://docs.consumet.org/): An API for fetching anime information and images
 
 ## Contributing
 
