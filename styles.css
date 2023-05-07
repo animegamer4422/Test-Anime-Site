@@ -264,7 +264,10 @@ body {
     background-color: #e91e63;
   }
   
+<<<<<<< HEAD
   
+=======
+>>>>>>> 87993e0 (mobile responsiveness)
 
 @media (max-height: 300px) {
   .search-section form#search-form {
