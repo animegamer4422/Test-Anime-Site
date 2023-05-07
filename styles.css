@@ -175,6 +175,42 @@ body {
     overflow: auto;
   }
 
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
+  }
+  
+  .pagination button {
+    background-color: #f06292;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1.2rem;
+    margin: 0 1rem;
+    padding: 0.5rem 1.5rem;
+    transition: background-color 0.3s;
+  }
+  
+  .pagination button:hover {
+    background-color: #e91e63;
+  }
+  
+  .pagination button:disabled {
+    background-color: #f8bbd0;
+    cursor: not-allowed;
+  }
+  
+  .pagination button:disabled:hover {
+    background-color: #f8bbd0;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+
 .list-box {
   width: 80%;
 }

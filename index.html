@@ -1,40 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>Anime Site</title>
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
-	<link rel="stylesheet" href="styles.css" />
+    <meta charset="UTF-8">
+    <title>Anime Site</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="responsive.css">
 </head>
-
 <body>
-	<header>
-		<div class="header-wrapper">
-      <a href="index.html">
-			<div class="logo">Anime Site</div>
-      </a>
-		</div>
-	</header>
-	<main>
-		<!-- Add other sections and content for your homepage here -->
+<header>
+    <div class="header-wrapper">
+        <a href="index.html">
+            <div class="logo">Anime Site</div>
+        </a>
+    </div>
+</header>
+<main>
     <section class="search-section">
-      <div class="container">
-        <h2>Search Anime</h2>
-        <form id="search-form" action="" method="get">
-          <input type="search" name="search" placeholder="Search for Anime...">
-          <button type="submit">Search</button>
-        </form>
-        <div id="search-results"></div>
-      </div>
+        <div class="container">
+            <h2>Search Anime</h2>
+            <form id="search-form" action="" method="get">
+                <input type="search" name="search" placeholder="Search for Anime...">
+                <button type="submit">Search</button>
+            </form>
+            <div id="search-results"></div>
+            <div id="pagination" class="pagination hidden">
+                <button id="prev-page">Previous</button>
+                <button id="next-page">Next</button>
+            </div>
+        </div>
     </section>
-	</main>
-
-	<footer>
-		<div class="footer-wrapper">
-			<p>&copy; Anime Site 2023</p>
-		</div>
-	</footer>
-	<!-- Include JavaScript for search functionality and other features -->
-	<script src="main.js"></script>
+</main>
+<footer>
+    <div class="footer-wrapper">
+        <p>&copy; Anime Site 2023</p>
+    </div>
+</footer>
+<script src="main.js"></script>
 </body>
 </html>

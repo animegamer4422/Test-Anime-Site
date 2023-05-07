@@ -3,77 +3,79 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Anime Site - Video Player</title>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/artplayer/2.5.1/artplayer.css" />
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
 	<link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="https://unpkg.com/artplayer@2.4.0/dist/artplayer.css" />
-  <script src="https://unpkg.com/artplayer/dist/artplayer.js"></script>
-  
+	<link rel="stylesheet" href="https://cdn.plyr.io/3.6.9/plyr.css" />
+	<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+	<script src="https://cdn.plyr.io/3.6.9/plyr.js"></script>
+	<style>
+		:root {
+		  --plyr-color-main: #ff69b4;
+		  --plyr-video-background: #282a36;
+		}
+	  </style>
 </head>
 <body>
 	<header>
 		<div class="header-wrapper">
-            <a href="index.html">
-                <div class="logo">Anime Site</div>
-            </a>
+			<a href="index.html">
+				<div class="logo">Anime Site</div>
+			</a>
 		</div>
 	</header>
 	<main>
 		<section class="video-section" id="video-section">
 			<div class="container">
 				<h2>Video Section</h2>
-				<div id="artplayer" class="artplayer"></div>
+				<video id="player" playsinline controls></video>
 			</div>
-			
-            <script>
-                // Get the selected episode URL from sessionStorage
-                const selectedEpisodeUrl = sessionStorage.getItem('selectedEpisodeUrl');
-              
-                // Check if the URL is set
-                if (selectedEpisodeUrl) {
-                  // Print the URL to the console for debugging
-                  console.log('Episode URL from sessionStorage:', selectedEpisodeUrl);
-              
-                  // Initialize the Art Player video player
-                  const art = new Artplayer({
-    container: '#artplayer',
-    url: selectedEpisodeUrl,
-    autoplay: false,
-    poster: '',
-    loop: false,
-    moreVideoAttr: {
-        crossOrigin: 'anonymous',
-    },
-    setting: true,
-    layers: [
-        {
-            html: `
-                <button class="artplayer-controller-icon" id="customPIPButton">
-                    <svg viewBox="0 0 24 24"><path d="M7 21H5V9h14v12H7zm5-14c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm0 2a1 1 0 100 2 1 1 0 000-2z" /></svg>
-                </button>
-            `,
-            click: (player) => {
-                player.video.requestPictureInPicture();
-            },
-        },
-    ],
-});
-
-
-                } else {
-                  // Redirect back to index.html if no episode URL is found
-                  window.location.href = 'index.html';
-                }
-              </script>
-              
-            
 		</section>
 	</main>
-
 	<footer>
 		<div class="footer-wrapper">
 			<p>&copy; Anime Site 2023</p>
 		</div>
 	</footer>
+	<script>
+      const selectedEpisodeUrl = sessionStorage.getItem('selectedEpisodeUrl');
+        
+      if (Hls.isSupported()) {
+        const video = document.querySelector('#player');
+        const hls = new Hls();
+      
+        hls.loadSource(selectedEpisodeUrl);
+        hls.attachMedia(video);
+        hls.on(Hls.Events.MANIFEST_PARSED, function () {
+          video.play();
+        });
+      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        video.src = selectedEpisodeUrl;
+        video.addEventListener('loadedmetadata', function () {
+          video.play();
+        });
+      } else {
+        console.error('This is a legacy browser that does not support HLS playback.');
+      }
+
+			const player = new Plyr('#player', {
+				controls: [
+					'play-large',
+					'rewind',
+					'play',
+					'fast-forward',
+					'progress',
+					'current-time',
+					'duration',
+					'mute',
+					'volume',
+					'quality',
+					'captions',
+					'settings',
+					'pip',
+					'airplay',
+					'fullscreen',
+				],
+			});
+	</script>
 </body>
 </html>
