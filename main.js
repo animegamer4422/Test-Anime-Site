@@ -25,23 +25,37 @@ document.addEventListener('DOMContentLoaded', () => {
     await fetchAndDisplayData(query, pageNumber);
   });
 
+  function showLoadingSpinner() {
+    document.getElementById('loading-spinner').style.display = 'block';
+  }
+  
+  function hideLoadingSpinner() {
+    document.getElementById('loading-spinner').style.display = 'none';
+  }
+  
+  // Include these functions in your existing fetchAndDisplayData function
   async function fetchAndDisplayData(query, pageNumber) {
     const apiUrl = `https://api.consumet.org/anime/gogoanime/${query}?page=${pageNumber}`;
-
+    
+    showLoadingSpinner(); // Show the loading spinner
+  
     try {
       const response = await fetch(apiUrl);
-
+    
       if (response.ok) {
         const data = await response.json();
         displayImages(data.results);
-        updatePaginationButtons(); // Call the function here
+        return data.total_pages;
       } else {
         console.error('Error fetching data:', response.statusText);
       }
     } catch (error) {
       console.error('Error:', error);
+    } finally {
+      hideLoadingSpinner(); // Hide the loading spinner
     }
   }
+  
 
   const pagination = document.getElementById('pagination');
 
