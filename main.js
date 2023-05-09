@@ -33,6 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
       toggleState.textContent = 'Dub';
     }
   
+    searchForm.dispatchEvent(new Event('submit', { cancelable: true }));
+    
     // Refilter the search results when the toggle state changes
     await fetchAndDisplayData(query, pageNumber);
   });
