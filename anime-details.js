@@ -35,44 +35,31 @@ async function displayDetails(anime) {
   description.textContent = anime.description;
 
   // Display the list of episodes
-  for (const episode of anime.episodes) {
-    const listItem = document.createElement('li');
-    const link = document.createElement('a');
-    link.textContent = `Episode ${episode.number}`;
+// Display the list of episodes
+for (const episode of anime.episodes) {
+  const listItem = document.createElement('li');
+  const link = document.createElement('a');
+  link.textContent = `Episode ${episode.number}`;
 
-    // Fetch the server URL for the episode
-    const episodeId = episode.id;
-    const serverName = 'vidstreaming'; // You can change this to any of the available server names
-    const apiUrl = `https://api.consumet.org/anime/gogoanime/watch/${episodeId}?server=${serverName}`;
+  // Add data attributes for episode number and any other required parameters
+  link.dataset.episodeNumber = episode.number;
+  link.dataset.episodeId = episode.id;
 
-    try {
-      const response = await fetch(apiUrl);
+  link.classList.add('episode');
 
-      if (response.ok) {
-        const data = await response.json();
-        const highestQualityStream = data.sources.reduce((prev, curr) => {
-          if (prev.quality === 'auto') return curr;
-          if (curr.quality === 'auto') return prev;
-          return parseInt(prev.quality) > parseInt(curr.quality) ? prev : curr;
-        });
-        const serverUrl = highestQualityStream.url;
-        link.setAttribute('href', serverUrl);
-        console.log(`Fetched stream URL for Episode ${episode.number}:`, serverUrl);
-      } else {
-        console.error('Error fetching server URL:', response.statusText);
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
+  listItem.appendChild(link);
+  episodes.appendChild(listItem);
+}
 
-    // Modify the click event listener for the episode link
-    link.addEventListener('click', (event) => {
-      event.preventDefault();
-      sessionStorage.setItem('selectedEpisodeUrl', link.getAttribute('href'));
-      window.location.href = 'video-player.html';
-    });
+// Add the click event listener to the dynamically created episode elements
+document.querySelectorAll('.episode').forEach(episodeLink => {
+  episodeLink.addEventListener('click', async (event) => {
+    const episodeNumber = event.target.dataset.episodeNumber;
+    const episodeId = event.target.dataset.episodeId;
 
-    listItem.appendChild(link);
-    episodes.appendChild(listItem);
-  }
+    // Now navigate to the video-player.html page and pass the necessary parameters
+    window.location.href = `video-player.html?episodeNumber=${episodeNumber}&episodeId=${episodeId}`;
+  });
+});
+
 }

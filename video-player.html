@@ -8,6 +8,7 @@
 	<link rel="stylesheet" href="https://cdn.plyr.io/3.6.9/plyr.css" />
 	<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 	<script src="https://cdn.plyr.io/3.6.9/plyr.js"></script>
+	<script src="video-player.js"></script>
 	<style>
 		:root {
 		  --plyr-color-main: #ff69b4;
@@ -36,46 +37,5 @@
 			<p>&copy; Anime Site 2023</p>
 		</div>
 	</footer>
-	<script>
-      const selectedEpisodeUrl = sessionStorage.getItem('selectedEpisodeUrl');
-        
-      if (Hls.isSupported()) {
-        const video = document.querySelector('#player');
-        const hls = new Hls();
-      
-        hls.loadSource(selectedEpisodeUrl);
-        hls.attachMedia(video);
-        hls.on(Hls.Events.MANIFEST_PARSED, function () {
-          video.play();
-        });
-      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-        video.src = selectedEpisodeUrl;
-        video.addEventListener('loadedmetadata', function () {
-          video.play();
-        });
-      } else {
-        console.error('This is a legacy browser that does not support HLS playback.');
-      }
-
-			const player = new Plyr('#player', {
-				controls: [
-					'play-large',
-					'rewind',
-					'play',
-					'fast-forward',
-					'progress',
-					'current-time',
-					'duration',
-					'mute',
-					'volume',
-					'quality',
-					'captions',
-					'settings',
-					'pip',
-					'airplay',
-					'fullscreen',
-				],
-			});
-	</script>
 </body>
 </html>
