@@ -3,13 +3,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const searchResults = document.getElementById('search-results');
   const prevPageButton = document.getElementById('prev-page');
   const nextPageButton = document.getElementById('next-page');
+  const toggleSwitch = document.querySelector('.switch input[type="checkbox"]');
+  const toggleState = document.getElementById('toggle-state');
 
   let query = '';
   let pageNumber = 1;
 
   searchForm.addEventListener('submit', async (event) => {
     event.preventDefault();
-
     query = event.target.search.value;
     pageNumber = 1;
     await fetchAndDisplayData(query, pageNumber);
@@ -24,6 +25,26 @@ document.addEventListener('DOMContentLoaded', () => {
     pageNumber++;
     await fetchAndDisplayData(query, pageNumber);
   });
+
+  toggleSwitch.addEventListener('change', async function () {
+    if (this.checked) {
+      toggleState.textContent = 'Sub';
+    } else {
+      toggleState.textContent = 'Dub';
+    }
+  
+    // Refilter the search results when the toggle state changes
+    await fetchAndDisplayData(query, pageNumber);
+  });
+
+  function filterResults(results) {
+    if (toggleSwitch.checked) {
+      return results.filter(result => !result.title.toLowerCase().includes('(dub)'));
+    } else {
+      return results.filter(result => result.title.toLowerCase().includes('(dub)'));
+    }
+  }
+  
 
   function showLoadingSpinner() {
     document.getElementById('loading-spinner').style.display = 'block';
@@ -44,7 +65,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
       if (response.ok) {
         const data = await response.json();
-        displayImages(data.results);
+        const filteredResults = filterResults(data.results);
+      
+        displayImages(filteredResults);
         return data.total_pages;
       } else {
         console.error('Error fetching data:', response.statusText);

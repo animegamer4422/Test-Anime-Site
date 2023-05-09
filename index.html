@@ -21,7 +21,17 @@
             <form id="search-form" action="" method="get">
                 <input type="search" name="search" placeholder="Search for Anime...">
                 <button type="submit">Search</button>
+                <!-- Add a container div for the switch and label -->
+<div class="switch-container">
+    <div id="toggle-state">Sub</div>
+    <label class="switch">
+        <input type="checkbox" id="language-toggle" checked>
+        <span class="slider round"></span>
+    </label>
+</div>
+
             </form>
+
             <div id="search-results"></div>
             <div class="loading-spinner" id="loading-spinner">
                 <div class="spinner"></div>
