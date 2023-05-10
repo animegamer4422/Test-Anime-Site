@@ -1,46 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Anime Site - Video Player</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="stylesheet" href="https://cdn.plyr.io/3.6.9/plyr.css" />
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-    <script src="https://cdn.plyr.io/3.6.9/plyr.js"></script>
-    <script src="video-player.js"></script>
-    <style>
-        :root {
-          --plyr-color-main: #ff69b4;
-          --plyr-video-background: #282a36;
-        }
-    </style>
+	<meta charset="UTF-8">
+	<title>Anime Site - Video Player</title>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+	<link rel="stylesheet" href="styles.css" />
+	<link rel="stylesheet" href="https://cdn.plyr.io/3.6.9/plyr.css" />
+	<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+	<script src="https://cdn.plyr.io/3.6.9/plyr.js"></script>
+	<script src="video-player.js"></script>
+	<style>
+		:root {
+		  --plyr-color-main: #ff69b4;
+		  --plyr-video-background: #282a36;
+		}
+	  </style>
 </head>
 <body>
-    <header>
-        <div class="header-wrapper">
-            <a href="index.html">
-                <div class="logo">Anime Site</div>
-            </a>
-        </div>
-    </header>
-    <main>
-        <section class="video-section" id="video-section">
-            <div class="container">
-                <h2>Video Section</h2>
-                <video id="player" playsinline controls></video>
-                <!-- Add the navigation buttons here -->
-                <div class="episode-navigation">
-                    <button id="prev-episode" class="episode-button">Previous Episode</button>
-                    <button id="next-episode" class="episode-button">Next Episode</button>
-                </div>
-            </div>
-        </section>
-    </main>
-    <footer>
-        <div class="footer-wrapper">
-            <p>&copy; Anime Site 2023</p>
-        </div>
-    </footer>
+	<header>
+		<div class="header-wrapper">
+			<a href="index.html">
+				<div class="logo">Anime Site</div>
+			</a>
+		</div>
+	</header>
+	<main>
+		<section class="video-section" id="video-section">
+			<div class="container">
+				<h2>Video Section</h2>
+				<video id="player" playsinline controls></video>
+			</div>
+		</section>
+	</main>
+	<footer>
+		<div class="footer-wrapper">
+			<p>&copy; Anime Site 2023</p>
+		</div>
+	</footer>
 </body>
 </html>

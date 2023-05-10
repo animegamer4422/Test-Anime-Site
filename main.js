@@ -5,8 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const nextPageButton = document.getElementById('next-page');
   const toggleSwitch = document.querySelector('.switch input[type="checkbox"]');
   const toggleState = document.getElementById('toggle-state');
-  const prevEpisodeButton = document.getElementById('prev-episode');
-  const nextEpisodeButton = document.getElementById('next-episode');
 
   let query = '';
   let pageNumber = 1;
