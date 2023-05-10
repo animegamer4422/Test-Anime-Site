@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const episodeNumber = parseInt(getParameterByName('episodeNumber'));
     const episodeId = getParameterByName('episodeId');
+    const baseAnimeId = episodeId.substring(0, episodeId.lastIndexOf('-'));
 
     // Update the disabled state of the prev and next buttons based on the current episode number
     function updateEpisodeButtons() {
@@ -27,16 +28,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     prevEpisodeButton.addEventListener('click', () => {
       const prevEpisodeNumber = episodeNumber - 1;
-      const prevEpisodeId = `${episodeId.split('-')[0]}-episode-${prevEpisodeNumber}`;
+      const prevEpisodeId = `${baseAnimeId}-${prevEpisodeNumber}`;
       window.location.href = `video-player.html?episodeNumber=${prevEpisodeNumber}&episodeId=${prevEpisodeId}`;
     });
 
     nextEpisodeButton.addEventListener('click', () => {
       const nextEpisodeNumber = episodeNumber + 1;
-      const nextEpisodeId = `${episodeId.split('-')[0]}-episode-${nextEpisodeNumber}`;
+      const nextEpisodeId = `${baseAnimeId}-${nextEpisodeNumber}`;
       window.location.href = `video-player.html?episodeNumber=${nextEpisodeNumber}&episodeId=${nextEpisodeId}`;
     });
-    
+
     // Fetch the server URL for the episode
     const serverName = 'vidstreaming';
     const apiUrl = `https://api.consumet.org/anime/gogoanime/watch/${episodeId}?server=${serverName}`;
