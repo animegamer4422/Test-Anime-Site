@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const nextPageButton = document.getElementById('next-page');
   const toggleSwitch = document.querySelector('.switch input[type="checkbox"]');
   const toggleState = document.getElementById('toggle-state');
+  const prevEpisodeButton = document.getElementById('prev-episode');
+  const nextEpisodeButton = document.getElementById('next-episode');
 
   let query = '';
   let pageNumber = 1;
@@ -88,7 +90,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
   
-  
+  prevEpisodeButton.addEventListener('click', async () => {
+    const currentEpisodeNumber = parseInt(episodeNumber, 10);
+    if (currentEpisodeNumber > 1) {
+      const newEpisodeNumber = currentEpisodeNumber - 1;
+      window.location.href = `video-player.html?episodeNumber=${newEpisodeNumber}&episodeId=${episodeId}`;
+    }
+  });
+
+  nextEpisodeButton.addEventListener('click', async () => {
+    const currentEpisodeNumber = parseInt(episodeNumber, 10);
+    const newEpisodeNumber = currentEpisodeNumber + 1;
+    window.location.href = `video-player.html?episodeNumber=${newEpisodeNumber}&episodeId=${episodeId}`;
+  });
 
   const pagination = document.getElementById('pagination');
 

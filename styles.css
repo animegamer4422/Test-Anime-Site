@@ -150,6 +150,32 @@ input:checked + .slider:before {
     max-width: 900px;
   }
   
+     /* anime video-player styles */
+     .episode-navigation {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    
+    .episode-button {
+      background-color: var(--plyr-color-main);
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 0 10px;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      transition-duration: 0.4s;
+    }
+    
+    .episode-button:hover {
+      background-color: #c53dbb;
+    }
+    
+
   /* Search section styles */
   .search-section {
     background-color:  #282a36;
