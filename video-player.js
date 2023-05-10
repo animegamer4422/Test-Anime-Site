@@ -27,16 +27,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     prevEpisodeButton.addEventListener('click', () => {
       const prevEpisodeNumber = episodeNumber - 1;
-      const prevEpisodeId = parseInt(episodeId) - 1;
+      const prevEpisodeId = `${episodeId.split('-')[0]}-episode-${prevEpisodeNumber}`;
       window.location.href = `video-player.html?episodeNumber=${prevEpisodeNumber}&episodeId=${prevEpisodeId}`;
     });
 
     nextEpisodeButton.addEventListener('click', () => {
       const nextEpisodeNumber = episodeNumber + 1;
-      const nextEpisodeId = parseInt(episodeId) + 1;
+      const nextEpisodeId = `${episodeId.split('-')[0]}-episode-${nextEpisodeNumber}`;
       window.location.href = `video-player.html?episodeNumber=${nextEpisodeNumber}&episodeId=${nextEpisodeId}`;
     });
-
+    
     // Fetch the server URL for the episode
     const serverName = 'vidstreaming';
     const apiUrl = `https://api.consumet.org/anime/gogoanime/watch/${episodeId}?server=${serverName}`;
