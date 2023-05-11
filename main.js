@@ -88,8 +88,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
   
-  
-
   const pagination = document.getElementById('pagination');
 
   function displayImages(results) {
