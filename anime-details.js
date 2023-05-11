@@ -34,7 +34,6 @@ async function displayDetails(anime) {
   image.alt = anime.title;
   description.textContent = anime.description;
 
-  // Display the list of episodes
 // Display the list of episodes
 for (const episode of anime.episodes) {
   const listItem = document.createElement('li');

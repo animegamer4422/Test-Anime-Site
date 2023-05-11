@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdn.plyr.io/3.6.9/plyr.css" />
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script src="https://cdn.plyr.io/3.6.9/plyr.js"></script>
+    <script src="https://rawgit.com/soulwire/fit.js/master/fit.js"></script>
     <script src="video-player.js"></script>
     <style>
         :root {
@@ -28,7 +29,9 @@
         <section class="video-section" id="video-section">
             <div class="container">
                 <h2>Video Section</h2>
+            <div class="player-wrapper">
                 <video id="player" playsinline controls></video>
+            </div>
                 <!-- Add the navigation buttons here -->
                 <div class="episode-navigation">
                     <button id="prev-episode" class="episode-button">Previous</button>

@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
   
-    const apiUrl = `https://api.consumet.org/anime/gogoanime/${query}?page=${pageNumber}`;
+    const apiUrl = `https://api.consumet.org/anime/gogoanime/${query}?page=${pageNumber}&limit=21`;
   
     showLoadingSpinner(); // Show the loading spinner
   
@@ -74,9 +74,11 @@ document.addEventListener('DOMContentLoaded', () => {
   
       if (response.ok) {
         const data = await response.json();
-        const filteredResults = filterResults(data.results);
+        const filteredResults = filterResults(data.results.slice(0, 20));
   
         displayImages(filteredResults);
+        updateNextPageButton(data.results.length);
+        
         return data.total_pages;
       } else {
         console.error('Error fetching data:', response.statusText);
@@ -86,7 +88,12 @@ document.addEventListener('DOMContentLoaded', () => {
     } finally {
       hideLoadingSpinner(); // Hide the loading spinner
     }
+    function updateNextPageButton(resultsCount) {
+      nextPageButton.disabled = resultsCount <= 19;
+      prevPageButton.disabled = pageNumber <= 1;
+    }
   }
+  
   
   const pagination = document.getElementById('pagination');
 
@@ -101,11 +108,19 @@ document.addEventListener('DOMContentLoaded', () => {
         img.alt = item.title;
         img.title = item.title;
         img.classList.add('search-result-image'); // Add a class for styling
+        img.tabIndex = 0; // Make the image focusable
         img.addEventListener('click', () => {
           sessionStorage.setItem('selectedAnime', JSON.stringify(item));
-          window.location.href = 'anime-details.html';
+          window.location.href = `anime-details.html?animeId=${item.id}`;
         });
-  
+        img.addEventListener('keydown', function(event) {
+          // Check if the key pressed was Enter (key code 13)
+          if (event.keyCode === 13) {
+            sessionStorage.setItem('selectedAnime', JSON.stringify(item));
+            window.location.href = `anime-details.html?animeId=${item.id}`;
+          }
+        });
+        
         const name = document.createElement('span'); // Create an element for the name
         name.textContent = item.title;
         name.classList.add('search-result-name'); // Add a class for styling
