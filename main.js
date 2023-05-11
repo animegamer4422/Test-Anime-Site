@@ -32,20 +32,13 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       toggleState.textContent = 'Dub';
     }
-  
-    searchForm.dispatchEvent(new Event('submit', { cancelable: true }));
-    
-    // Refilter the search results when the toggle state changes
-    await fetchAndDisplayData(query, pageNumber);
-  });
 
-  function filterResults(results) {
-    if (toggleSwitch.checked) {
-      return results.filter(result => !result.title.toLowerCase().includes('(dub)'));
-    } else {
-      return results.filter(result => result.title.toLowerCase().includes('(dub)'));
+    if (query !== '') { // Only fetch data if the search field is not empty
+      searchForm.dispatchEvent(new Event('submit', { cancelable: true }));
+      // Refilter the search results when the toggle state changes
+      await fetchAndDisplayData(query, pageNumber);
     }
-  }
+  });
   
 
   function showLoadingSpinner() {
