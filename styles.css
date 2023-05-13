@@ -347,6 +347,7 @@ input:checked + .slider:before {
     padding: 20px 30px;
     border-radius: 10px;
     flex-direction: row;
+    cursor: pointer;
     margin-top: 5%;
     flex-wrap: wrap;
     max-height: 400px;
