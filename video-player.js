@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const episodeId = getParameterByName('episodeId');
     const baseAnimeId = episodeId.substring(0, episodeId.lastIndexOf('-'));
 
-    // Update the disabled state of the prev and next buttons based on the current episode number
     function updateEpisodeButtons() {
       prevEpisodeButton.disabled = episodeNumber <= 1;
       // Update this line with the maximum number of episodes for the anime if it is available
@@ -38,13 +37,26 @@ document.addEventListener('DOMContentLoaded', () => {
       window.location.href = `video-player.html?episodeNumber=${nextEpisodeNumber}&episodeId=${nextEpisodeId}`;
     });
 
-    // Fetch the server URL for the episode
+    async function fetchAnimeDetails(animeId) {
+      const apiUrl = `https://api.consumet.org/anime/gogoanime/${animeId}`;
+      const response = await fetch(apiUrl);
+      if (!response.ok) throw new Error(`Error fetching anime details: ${response.statusText}`);
+      return response.json();
+    }
+
+    function displayAnimeDetails(anime, episodeNumber) {
+      const currentEpisodeElement = document.getElementById('current-episode');
+      currentEpisodeElement.textContent = `Currently Playing: Episode ${episodeNumber}`;
+    }
+
+    const anime = await fetchAnimeDetails(baseAnimeId);
+    displayAnimeDetails(anime, episodeNumber);
+
     const serverName = 'vidstreaming';
     const apiUrl = `https://api.consumet.org/anime/gogoanime/watch/${episodeId}?server=${serverName}`;
 
     try {
       const response = await fetch(apiUrl);
-
       if (response.ok) {
         const data = await response.json();
         const highestQualityStream = data.sources.reduce((prev, curr) => {
@@ -53,7 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
           return parseInt(prev.quality) > parseInt(curr.quality) ? prev : curr;
         });
         const serverUrl = highestQualityStream.url;
-        console.log(`Fetched stream URL for Episode ${episodeNumber}:`, serverUrl);
 
         const video = document.querySelector('#player');
         const player = new Plyr(video, {
@@ -67,13 +78,19 @@ document.addEventListener('DOMContentLoaded', () => {
             'duration',
             'mute',
             'volume',
-            'quality',
             'captions',
             'settings',
             'pip',
             'airplay',
             'fullscreen',
+            'download'
           ],
+          quality: {
+            default: 720,
+            options: [1080, 720, 480, 360],
+            forced: true,
+            onChange: (e) => console.log(e),
+          },
         });
 
         if (Hls.isSupported()) {
@@ -89,16 +106,16 @@ document.addEventListener('DOMContentLoaded', () => {
             video.play();
           });
         } else {
-          console.error('This is a legacy browser that does not support.');
-          }
-        } else {
-          console.error('Error fetching server URL:', response.statusText);
+          console.error('This is a legacy browser that does not support HLS.');
         }
-      } catch (error) {
-        console.error('Error:', error);
+      } else {
+        console.error('Error fetching server URL:', response.statusText);
       }
+    } catch (error) {
+      console.error('Error:', error);
     }
-  
-    main();
-  });
-  
+  }
+
+  main();
+});
+
