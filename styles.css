@@ -276,8 +276,10 @@ input:checked + .slider:before {
     right: 0;
     transform: translateY(-50%);
     pointer-events: none;
+    margin-left: 10px;
+    margin-right: 10px;
   }
-  
+
   .episode-button {
     background-color: #f06292;
     border: none;
@@ -318,6 +320,11 @@ input:checked + .slider:before {
   
   .episode:hover {
     background-color: #e91e63;
+  }
+
+  .current-ep {
+    position: relative;
+    text-align: center;
   }
   
   /* Footer styles */
