@@ -1,15 +1,23 @@
 document.addEventListener('DOMContentLoaded', async () => {
+  let animeId;
   const selectedAnime = JSON.parse(sessionStorage.getItem('selectedAnime'));
 
   if (selectedAnime) {
-    const apiUrl = `https://api.consumet.org/anime/gogoanime/info/${selectedAnime.id}`;
+    animeId = selectedAnime.id;
+  } else {
+    const urlParams = new URLSearchParams(window.location.search);
+    animeId = urlParams.get('animeId');
+  }
+
+  if (animeId) {
+    const apiUrl = `https://api.consumet.org/anime/gogoanime/info/${animeId}`;
 
     try {
       const response = await fetch(apiUrl);
 
       if (response.ok) {
         const data = await response.json();
-        await displayDetails(data); // Add the 'await' keyword here
+        await displayDetails(data);
       } else {
         console.error('Error fetching data:', response.statusText);
       }
@@ -17,10 +25,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       console.error('Error:', error);
     }
   } else {
-    // Redirect to the main page if there's no selected anime in the sessionStorage
+    // Redirect to the main page if there's no animeId in the URL parameters or sessionStorage
     window.location.href = 'index.html';
   }
 });
+
 
 async function displayDetails(anime) {
   const title = document.getElementById('anime-title');
@@ -61,28 +70,3 @@ async function displayDetails(anime) {
     });
   });
 }
-
-document.addEventListener('DOMContentLoaded', async () => {
-  const urlParams = new URLSearchParams(window.location.search);
-  const animeId = urlParams.get('animeId');
-
-  if (animeId) {
-    const apiUrl = `https://api.consumet.org/anime/gogoanime/info/${animeId}`;
-
-    try {
-      const response = await fetch(apiUrl);
-
-      if (response.ok) {
-        const data = await response.json();
-        await displayDetails(data);
-      } else {
-        console.error('Error fetching data:', response.statusText);
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  } else {
-    // Redirect to the main page if there's no animeId in the URL parameters
-    window.location.href = 'index.html';
-  }
-});

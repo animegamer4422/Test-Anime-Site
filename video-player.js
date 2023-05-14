@@ -83,7 +83,6 @@ document.addEventListener('DOMContentLoaded', () => {
             'pip',
             'airplay',
             'fullscreen',
-            'download'
           ],
           quality: {
             default: 720,
