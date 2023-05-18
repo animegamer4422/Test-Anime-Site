@@ -51,21 +51,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const anime = await fetchAnimeDetails(baseAnimeId);
     displayAnimeDetails(anime, episodeNumber);
-
-    const serverName = 'vidstreaming';
-    const apiUrl = `https://animetrix-api.vercel.app/anime/gogoanime/watch/${episodeId}?server=${serverName}`;
+    
+    const apiUrl = `https://api.amvstr.ml/api/v2/stream/${episodeId}`;
     console.log(apiUrl)
+
     try {
       const response = await fetch(apiUrl);
       if (response.ok) {
         const data = await response.json();
-        const highestQualityStream = data.sources.reduce((prev, curr) => {
-          if (prev.quality === 'auto') return curr;
-          if (curr.quality === 'auto') return prev;
-          return parseInt(prev.quality) > parseInt(curr.quality) ? prev : curr;
-        });
-        const serverUrl = highestQualityStream.url;
-
+        const serverUrl = data.data.stream.multi.main.url;
         const video = document.querySelector('#player');
         const player = new Plyr(video, {
           controls: [
@@ -117,4 +111,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
   main();
 });
-
