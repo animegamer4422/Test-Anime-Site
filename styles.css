@@ -254,6 +254,7 @@ input:checked + .slider:before {
   }
 
   .player-wrapper {
+    min-width: 100px;
     text-shadow: none;
     z-index: 0;
     align-items: center;
@@ -402,150 +403,20 @@ input:checked + .slider:before {
   width: 80%;
 }
 
-/* Responsive styles */
-
-@media only screen and (max-width: 768px) {
-  /* Header styles */
-  .logo {
-    font-size: 20px;
-  }
-
-  /* Search section styles */
-  #search-form {
+@media (max-height: 300px) {
+  .search-section form#search-form {
     flex-direction: column;
+    align-items: center;
   }
 
-  input[type="search"] {
+  .search-section form#search-form input[type="search"] {
     width: 100%;
-    margin-left: auto;
-    margin-right: auto;
     margin-bottom: 10px;
+    border-radius: 5px;
   }
-  
-  button[type="submit"] {
+
+  .search-section form#search-form button[type="submit"] {
     width: 100%;
-    margin-left: auto;
-    margin-right: auto;
+    border-radius: 5px;
   }
-
-  #video-section {
-    margin-top: 10px; /* Adjust this value as needed */
-  }
-
-  /* Search results styles */
-  .search-result-image {
-    width: 120px;
-    margin: 5px;
-  }
-  
-  .search-result-name {
-    width: 120px;
-  }
-
-  /* Anime description styles */
-  .anime-description {
-    margin-left: 15px;
-    margin-right: 15px;
-  }
-
-  .anime-image {
-    margin-left: 15px;
-    margin-right: 15px;
-  }
-
-  .anime-description>.data {
-    font-size: 20px;
-  }
-  
-  .anime-description>p {
-    font-size: 16px;
-  }
-
-  /* Video player Styles */
-  .episode-button {
-    font-size: 1rem;
-    padding: 0.5rem 1rem;
-  }
-
-  /* Anime-details styles */
-  .episode {
-    padding: 0.5rem 1rem;
-  }
-
-  /* Footer styles */
-  .description {
-    font-size: 14px;
-  }
-
-  /* Pagination styles */
-  .pagination button {
-    font-size: 1rem;
-    padding: 0.5rem 1rem;
-  }
-
-  /* Container Styles */
-  .container {
-    max-width: 95%;
-    margin: 0 auto;
-    padding: 0 10px;
-  }
-
-  /* Responsive styles */
-@media only screen and (max-height: 854px) {
-
-    /* Header styles */
-    .logo {
-      font-size: 20px;
-    }
-  
-    /* Search section styles */
-    #search-form {
-      flex-direction: column;
-    }
-  
-    input[type="search"] {
-      width: 100%;
-      margin-left: auto;
-      margin-right: auto;
-      margin-bottom: 10px;
-    }
-    
-    button[type="submit"] {
-      width: 100%;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-  .video-section {
-    align-items: flex-start; /* Align items to the start of the flex container */
-  }
-
-  .player-wrapper {
-    height: auto; /* Change the height to auto so the video player can resize itself */
-    width: 100%; /* Make the video player take up the full width of its container */
-  }
-
-  #video-section {
-    padding-left: 0;
-    padding-right: 0;
-    margin-top: 10px; /* Adjust this value as needed */
-    flex-direction: column; /* Arrange elements vertically */
-  }
-
-  .episode-navigation {
-    position: static;
-    top: auto;
-    transform: none;
-    margin-left: 0;
-    margin-right: 0;
-    padding: 10px 0; /* Add some vertical padding */
-  }
-
-  .episode-button {
-    font-size: 0.8rem; /* Reduce the font size */
-    padding: 0.3rem 1rem; /* Reduce the padding */
-  }
-
-}
-
 }
