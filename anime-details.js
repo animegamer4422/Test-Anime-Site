@@ -10,8 +10,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   if (animeId) {
-    const apiUrl = `https://api.consumet.org/anime/gogoanime/info/${animeId}`;
-
+    const apiUrl = `https://animetrix-api.vercel.app/anime/gogoanime/info/${animeId}`;
+    console.log(apiUrl)
     try {
       const response = await fetch(apiUrl);
 

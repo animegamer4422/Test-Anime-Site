@@ -65,8 +65,8 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
   
-    const apiUrl = `https://api.consumet.org/anime/gogoanime/${query}?page=${pageNumber}&limit=21`;
-  
+    const apiUrl = `https://animetrix-api.vercel.app/anime/gogoanime/${query}?page=${pageNumber}&limit=21`;
+    console.log(apiUrl)
     showLoadingSpinner(); // Show the loading spinner
   
     try {

@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     async function fetchAnimeDetails(animeId) {
-      const apiUrl = `https://api.consumet.org/anime/gogoanime/${animeId}`;
+      const apiUrl = `https://animetrix-api.vercel.app/anime/gogoanime/${animeId}`;
       const response = await fetch(apiUrl);
       if (!response.ok) throw new Error(`Error fetching anime details: ${response.statusText}`);
       return response.json();
@@ -53,8 +53,8 @@ document.addEventListener('DOMContentLoaded', () => {
     displayAnimeDetails(anime, episodeNumber);
 
     const serverName = 'vidstreaming';
-    const apiUrl = `https://api.consumet.org/anime/gogoanime/watch/${episodeId}?server=${serverName}`;
-
+    const apiUrl = `https://animetrix-api.vercel.app/anime/gogoanime/watch/${episodeId}?server=${serverName}`;
+    console.log(apiUrl)
     try {
       const response = await fetch(apiUrl);
       if (response.ok) {
