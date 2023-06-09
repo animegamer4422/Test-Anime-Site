@@ -19,8 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateEpisodeButtons() {
       prevEpisodeButton.disabled = episodeNumber <= 1;
-      // Update this line with the maximum number of episodes for the anime if it is available
-      // nextEpisodeButton.disabled = episodeNumber >= maxNumberOfEpisodes;
     }
 
     updateEpisodeButtons();
@@ -81,6 +79,40 @@ document.addEventListener('DOMContentLoaded', () => {
             'fullscreen',
           ],
         });
+
+                // Function to throttle
+                function throttle(func, delay) {
+                  let lastCall = 0;
+                  return function(...args) {
+                    const now = new Date().getTime();
+                    if (now - lastCall < delay) {
+                      return;
+                    }
+                    lastCall = now;
+                    return func(...args);
+                  };
+                }
+
+                // Function to store video progress
+                function storeVideoProgress(currentTime) {
+                  localStorage.setItem(episodeId, currentTime.toString());
+                }
+        
+                // Throttle function for timeupdate
+                const handleTimeUpdate = throttle((event) => {
+                  storeVideoProgress(player.currentTime);
+                }, 15000);
+        
+                player.on("timeupdate", handleTimeUpdate);
+        
+                // Listen for 'play' event and restore time
+                player.on('play', function() {
+                  const savedTime = localStorage.getItem(episodeId);
+                  if (savedTime) {
+                    player.currentTime = parseFloat(savedTime);
+                  }
+                });
+        
     
         if (Hls.isSupported()) {
           const hls = new Hls();
