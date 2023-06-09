@@ -80,38 +80,52 @@ document.addEventListener('DOMContentLoaded', () => {
           ],
         });
 
-                // Function to throttle
-                function throttle(func, delay) {
-                  let lastCall = 0;
-                  return function(...args) {
-                    const now = new Date().getTime();
-                    if (now - lastCall < delay) {
-                      return;
-                    }
-                    lastCall = now;
-                    return func(...args);
-                  };
-                }
+  // Function to throttle
+  function throttle(func, delay) {
+    let lastCall = 0;
+    return function(...args) {
+      const now = new Date().getTime();
+      if (now - lastCall < delay) {
+        return;
+      }
+      lastCall = now;
+      return func(...args);
+    };
+  }
 
-                // Function to store video progress
-                function storeVideoProgress(currentTime) {
-                  localStorage.setItem(episodeId, currentTime.toString());
-                }
-        
-                // Throttle function for timeupdate
-                const handleTimeUpdate = throttle((event) => {
-                  storeVideoProgress(player.currentTime);
-                }, 15000);
-        
-                player.on("timeupdate", handleTimeUpdate);
-        
-                // Listen for 'play' event and restore time
-                player.on('play', function() {
-                  const savedTime = localStorage.getItem(episodeId);
-                  if (savedTime) {
-                    player.currentTime = parseFloat(savedTime);
-                  }
-                });
+  // Function to store video progress
+  function storeVideoProgress(currentTime) {
+    localStorage.setItem(episodeId, currentTime.toString());
+  }
+
+  // Throttled version of the storeVideoProgress function
+  const throttledStoreVideoProgress = throttle(storeVideoProgress, 10000);
+
+  player.on('timeupdate', function() {
+    throttledStoreVideoProgress(player.currentTime);
+});
+
+  player.on('pause', function() {
+    throttledStoreVideoProgress(player.currentTime);
+  });
+
+  player.on('ended', function() {
+    throttledStoreVideoProgress(player.currentTime);
+  });
+
+  // For non-HLS
+  video.addEventListener('loadedmetadata', function () {
+    const savedTime = parseFloat(localStorage.getItem(episodeId)) || 0;
+    var previousTimeSetter = setInterval(function() {
+      if (player.playing !== true && player.currentTime !== savedTime) {
+        player.currentTime = savedTime;
+      } else {
+        clearInterval(previousTimeSetter);
+      }
+    }, 800);
+    video.play();
+  });
+
         
     
         if (Hls.isSupported()) {
@@ -119,16 +133,32 @@ document.addEventListener('DOMContentLoaded', () => {
           hls.loadSource(mainUrl);
           hls.attachMedia(video);
           hls.on(Hls.Events.MANIFEST_PARSED, function () {
-            video.play();
+              const savedTime = parseFloat(localStorage.getItem(episodeId)) || 0;
+              var previousTimeSetter = setInterval(function() {
+                  if (player.playing !== true && player.currentTime !== savedTime) {
+                      player.currentTime = savedTime;
+                  } else {
+                      clearInterval(previousTimeSetter);
+                  }
+              }, 800);
+              video.play();
           });
-        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
           video.src = mainUrl;
           video.addEventListener('loadedmetadata', function () {
-            video.play();
+              const savedTime = parseFloat(localStorage.getItem(episodeId)) || 0;
+              var previousTimeSetter = setInterval(function() {
+                  if (player.playing !== true && player.currentTime !== savedTime) {
+                      player.currentTime = savedTime;
+                  } else {
+                      clearInterval(previousTimeSetter);
+                  }
+              }, 800);
+              video.play();
           });
-        } else {
+      } else {
           console.error('This is a legacy browser that does not support HLS.');
-        }
+      }
       } else {
         console.error('Error fetching server URL:', data.statusText);
       }
