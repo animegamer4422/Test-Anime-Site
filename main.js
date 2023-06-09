@@ -26,18 +26,41 @@ document.addEventListener('DOMContentLoaded', () => {
     await fetchAndDisplayData(query, pageNumber);
   });
 
-  toggleSwitch.addEventListener('change', async function () {
+  window.onload = function() {
+    const savedToggleState = JSON.parse(localStorage.getItem('toggleState'));
+  
+    toggleSwitch.checked = savedToggleState;
+    
+    if (toggleSwitch.checked) {
+      toggleState.textContent = 'Sub';
+    } else {
+      toggleState.textContent = 'Dub';
+    }
+  };
+  
+  
+  toggleSwitch.addEventListener('change', function () {
+    // Save the state of the switch to localStorage
+    localStorage.setItem('toggleState', JSON.stringify(this.checked));
+    
     if (this.checked) {
       toggleState.textContent = 'Sub';
     } else {
       toggleState.textContent = 'Dub';
     }
   
+    // Redo the search with the new filter
     searchForm.dispatchEvent(new Event('submit', { cancelable: true }));
-    
-    // Refilter the search results when the toggle state changes
-    await fetchAndDisplayData(query, pageNumber);
   });
+  
+  
+    // Redo the search with the new filter
+    searchForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      query = event.target.search.value;
+      pageNumber = 1;
+      await fetchAndDisplayData(query, pageNumber);
+    });
 
   function filterResults(results) {
     if (toggleSwitch.checked) {
