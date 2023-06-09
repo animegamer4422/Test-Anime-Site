@@ -53,13 +53,15 @@ document.addEventListener('DOMContentLoaded', () => {
     displayAnimeDetails(anime, episodeNumber);
     
     const apiUrl = `https://api.amvstr.ml/api/v2/stream/${episodeId}`;
-    console.log(apiUrl)
+    console.log(apiUrl); 
+
 
     try {
-      const response = await fetch(apiUrl);
-      if (response.ok) {
-        const data = await response.json();
-        const serverUrl = data.data.stream.multi.main.url;
+      const data = await fetch(apiUrl);
+      if (data.ok) {
+        const jsonResponse = await data.json();
+        const mainUrl = jsonResponse.data.stream.multi.main.url;
+    
         const video = document.querySelector('#player');
         const player = new Plyr(video, {
           controls: [
@@ -78,23 +80,17 @@ document.addEventListener('DOMContentLoaded', () => {
             'airplay',
             'fullscreen',
           ],
-          quality: {
-            default: 720,
-            options: [1080, 720, 480, 360],
-            forced: true,
-            onChange: (e) => console.log(e),
-          },
         });
-
+    
         if (Hls.isSupported()) {
           const hls = new Hls();
-          hls.loadSource(serverUrl);
+          hls.loadSource(mainUrl);
           hls.attachMedia(video);
           hls.on(Hls.Events.MANIFEST_PARSED, function () {
             video.play();
           });
         } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-          video.src = serverUrl;
+          video.src = mainUrl;
           video.addEventListener('loadedmetadata', function () {
             video.play();
           });
@@ -102,12 +98,11 @@ document.addEventListener('DOMContentLoaded', () => {
           console.error('This is a legacy browser that does not support HLS.');
         }
       } else {
-        console.error('Error fetching server URL:', response.statusText);
+        console.error('Error fetching server URL:', data.statusText);
       }
     } catch (error) {
       console.error('Error:', error);
     }
-  }
-
-  main();
+}
+main();
 });
