@@ -267,6 +267,12 @@ button[type="submit"]:hover {
   left: 0;
 }
 
+.player-wrapper #player {
+  height: calc(100vh - 100px) !important;  
+  width: calc(100vw - 50px) !important;  
+}
+
+
 .episode-navigation {
   display: flex;
   justify-content: space-between;
