@@ -88,34 +88,58 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
   
-    const apiUrl = `https://animetrix-api.vercel.app/anime/gogoanime/${query}?page=${pageNumber}&limit=21`;
-    console.log(apiUrl)
+    const primaryApiUrl = `https://animetrix-api.vercel.app/anime/gogoanime/${query}?page=${pageNumber}&limit=21`;
+    const fallbackUrl = `https://api.consumet.org/anime/gogoanime/${query}?page=${pageNumber}&limit=21`;
+  
+    console.log(primaryApiUrl)
     showLoadingSpinner(); // Show the loading spinner
   
     try {
-      const response = await fetch(apiUrl);
+      const response = await fetch(primaryApiUrl);
   
-      if (response.ok) {
-        const data = await response.json();
-        const filteredResults = filterResults(data.results.slice(0, 20));
-  
-        displayImages(filteredResults);
-        updateNextPageButton(data.results.length);
-        
-        return data.total_pages;
-      } else {
-        console.error('Error fetching data:', response.statusText);
+      if (!response.ok) {
+        throw new Error('Error fetching data from primary API:', response.statusText);
       }
-    } catch (error) {
-      console.error('Error:', error);
+  
+      const data = await response.json();
+      const filteredResults = filterResults(data.results.slice(0, 20));
+  
+      displayImages(filteredResults);
+      updateNextPageButton(data.results.length);
+      
+      return data.total_pages;
+    } catch (primaryApiError) {
+      console.error('Error:', primaryApiError);
+  
+      // Fallback API
+      console.log('Fetching data from fallback API...');
+      try {
+        const fallbackResponse = await fetch(fallbackUrl);
+  
+        if (!fallbackResponse.ok) {
+          throw new Error('Error fetching data from fallback API:', fallbackResponse.statusText);
+        }
+  
+        const fallbackData = await fallbackResponse.json();
+        const fallbackFilteredResults = filterResults(fallbackData.results.slice(0, 20));
+  
+        displayImages(fallbackFilteredResults);
+        updateNextPageButton(fallbackData.results.length);
+  
+        return fallbackData.total_pages;
+      } catch (fallbackApiError) {
+        console.error('Error:', fallbackApiError);
+      }
     } finally {
       hideLoadingSpinner(); // Hide the loading spinner
     }
-    function updateNextPageButton(resultsCount) {
-      nextPageButton.disabled = resultsCount <= 19;
-      prevPageButton.disabled = pageNumber <= 1;
-    }
   }
+  
+  function updateNextPageButton(resultsCount) {
+    nextPageButton.disabled = resultsCount <= 19;
+    prevPageButton.disabled = pageNumber <= 1;
+  }
+  
   
   
   const pagination = document.getElementById('pagination');
