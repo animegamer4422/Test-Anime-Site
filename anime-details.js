@@ -10,25 +10,43 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   if (animeId) {
-    const apiUrl = `https://animetrix-api.vercel.app/anime/gogoanime/info/${animeId}`;
-    console.log(apiUrl)
-    try {
-      const response = await fetch(apiUrl);
+    const primaryApiUrl = `https://animetrix-api.vercel.app/anime/gogoanime/info/${animeId}`;
+    const fallbackUrl = `https://api.consumet.org/anime/gogoanime/info/${animeId}`;
 
-      if (response.ok) {
-        const data = await response.json();
-        await displayDetails(data);
-      } else {
-        console.error('Error fetching data:', response.statusText);
+    console.log(primaryApiUrl)
+    try {
+      const response = await fetch(primaryApiUrl);
+
+      if (!response.ok) {
+        throw new Error('Error fetching data from primary API:', response.statusText);
       }
-    } catch (error) {
-      console.error('Error:', error);
+
+      const data = await response.json();
+      await displayDetails(data);
+    } catch (primaryApiError) {
+      console.error('Error:', primaryApiError);
+      
+      // Fallback API
+      console.log('Fetching data from fallback API...');
+      try {
+        const fallbackResponse = await fetch(fallbackUrl);
+
+        if (!fallbackResponse.ok) {
+          throw new Error('Error fetching data from fallback API:', fallbackResponse.statusText);
+        }
+
+        const fallbackData = await fallbackResponse.json();
+        await displayDetails(fallbackData);
+      } catch (fallbackApiError) {
+        console.error('Error:', fallbackApiError);
+      }
     }
   } else {
     // Redirect to the main page if there's no animeId in the URL parameters or sessionStorage
     window.location.href = 'index.html';
   }
 });
+
 
 
 async function displayDetails(anime) {

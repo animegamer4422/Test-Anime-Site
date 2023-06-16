@@ -36,11 +36,24 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     async function fetchAnimeDetails(animeId) {
-      const apiUrl = `https://animetrix-api.vercel.app/anime/gogoanime/${animeId}`;
-      const response = await fetch(apiUrl);
-      if (!response.ok) throw new Error(`Error fetching anime details: ${response.statusText}`);
-      return response.json();
+      const primaryApiUrl = `https://animetrix-api.vercel.app/anime/gogoanime/${animeId}`;
+      const fallbackUrl = `https://api.consumet.org/anime/gogoanime/${animeId}`;
+    
+      try {
+        const response = await fetch(primaryApiUrl);
+        if (!response.ok) throw new Error(`Error fetching anime details from primary API: ${response.statusText}`);
+        return response.json();
+      } catch (primaryApiError) {
+        console.error('Error:', primaryApiError);
+    
+        // Fallback API
+        console.log('Fetching data from fallback API...');
+        const fallbackResponse = await fetch(fallbackUrl);
+        if (!fallbackResponse.ok) throw new Error(`Error fetching anime details from fallback API: ${fallbackResponse.statusText}`);
+        return fallbackResponse.json();
+      }
     }
+    
 
     function displayAnimeDetails(anime, episodeNumber) {
       const currentEpisodeElement = document.getElementById('current-episode');
