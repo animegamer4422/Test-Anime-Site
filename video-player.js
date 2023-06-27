@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const anime = await fetchAnimeDetails(baseAnimeId);
     displayAnimeDetails(anime, episodeNumber);
 
-    const apiUrl = `https://new-api.amvstr.ml/api/v2/stream/${episodeId}`;
+    const apiUrl = `https://api.amvstr.ml/api/v2/stream/${episodeId}`;
     console.log(apiUrl);
 
     try {
