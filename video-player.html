@@ -8,8 +8,6 @@
     <link rel="stylesheet" href="https://cdn.plyr.io/3.6.9/plyr.css" />
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script src="https://cdn.plyr.io/3.6.9/plyr.js"></script>
-    <script src="https://rawgit.com/soulwire/fit.js/master/fit.js"></script>
-    <script src="video-player.js"></script>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     <style>
         :root {
@@ -30,13 +28,14 @@
         <section class="video-section" id="video-section">
             <div class="container">
                 <h2>Video Section</h2>
-            <div class="player-wrapper">
-                <video id="player" playsinline controls></video>
+                <div class="player-wrapper">
+                    <video id="player" playsinline controls></video>
+                </div>
+                <p class="current-ep" id="current-episode"></p>
             </div>
-            <p class="current-ep" id="current-episode"></p>
-        </div>
         </section>
         <div class="episode-navigation">
+          <button id="play-button" class="play-button">Play</button>
             <button id="prev-episode" class="episode-button">Previous</button>
             <button id="next-episode" class="episode-button">Next</button>
         </div>
@@ -46,5 +45,6 @@
             <p>&copy; Anime Site 2023</p>
         </div>
     </footer>
+    <script src="video-player.js"></script>
 </body>
 </html>
