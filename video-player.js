@@ -2,8 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   async function main() {
     const prevEpisodeButton = document.getElementById("prev-episode");
     const nextEpisodeButton = document.getElementById("next-episode");
-    const playButton = document.getElementById("play-button"); // New
-    let videoStarted = false;
+    let videoStarted = true;
 
     function getParameterByName(name, url) {
       if (!url) url = window.location.href;
@@ -35,13 +34,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const nextEpisodeNumber = episodeNumber + 1;
       const nextEpisodeId = `${baseAnimeId}-${nextEpisodeNumber}`;
       window.location.href = `video-player.html?episodeNumber=${nextEpisodeNumber}&episodeId=${nextEpisodeId}`;
-    });
-
-    playButton.addEventListener("click", () => {
-      if (!videoStarted) {
-        video.play();
-        videoStarted = true;
-      }
     });
 
     async function fetchAnimeDetails(animeId) {
