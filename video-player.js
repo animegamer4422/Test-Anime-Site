@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   async function main() {
     const prevEpisodeButton = document.getElementById("prev-episode");
     const nextEpisodeButton = document.getElementById("next-episode");
+    let videoStarted = true;
 
     function getParameterByName(name, url) {
       if (!url) url = window.location.href;
@@ -14,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const episodeNumber = parseInt(getParameterByName("episodeNumber"));
-    const episodeId = getParameterByName("episodeId");
+    episodeId = getParameterByName("episodeId");
     const baseAnimeId = episodeId.substring(0, episodeId.lastIndexOf("-"));
 
     function updateEpisodeButtons() {
@@ -42,9 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
       try {
         const response = await fetch(primaryApiUrl);
         if (!response.ok)
-          throw new Error(
-            `Error fetching anime details from primary API: ${response.statusText}`
-          );
+          throw new Error(`Error fetching anime details from primary API: ${response.statusText}`);
         return response.json();
       } catch (primaryApiError) {
         console.error("Error:", primaryApiError);
@@ -53,9 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("Fetching data from fallback API...");
         const fallbackResponse = await fetch(fallbackUrl);
         if (!fallbackResponse.ok)
-          throw new Error(
-            `Error fetching anime details from fallback API: ${fallbackResponse.statusText}`
-          );
+          throw new Error(`Error fetching anime details from fallback API: ${fallbackResponse.statusText}`);
         return fallbackResponse.json();
       }
     }
@@ -65,101 +62,77 @@ document.addEventListener("DOMContentLoaded", () => {
       currentEpisodeElement.textContent = `Currently Playing: Episode ${episodeNumber}`;
     }
 
-    const anime = await fetchAnimeDetails(baseAnimeId);
-    displayAnimeDetails(anime, episodeNumber);
-
-    const apiUrl = `https://api.amvstr.ml/api/v2/stream/${episodeId}`;
-    console.log(apiUrl);
-
     try {
+      const anime = await fetchAnimeDetails(baseAnimeId);
+      displayAnimeDetails(anime, episodeNumber);
+
+      const apiUrl = `https://api.amvstr.me/api/v2/stream/${episodeId}`;
+      console.log(apiUrl);
+
       const data = await fetch(apiUrl);
       if (data.ok) {
         const jsonResponse = await data.json();
-        const mainUrl = jsonResponse.data.stream.multi.main.url;
 
-        const video = document.querySelector("#player");
-        const player = new Plyr(video, {
-          controls: [
-            "play-large",
-            "rewind",
-            "play",
-            "fast-forward",
-            "progress",
-            "current-time",
-            "duration",
-            "mute",
-            "volume",
-            "captions",
-            "settings",
-            "pip",
-            "airplay",
-            "fullscreen",
-          ],
-        });
+        if (jsonResponse && jsonResponse.stream && jsonResponse.stream.multi && jsonResponse.stream.multi.main && jsonResponse.stream.multi.main.url) {
+          const mainUrl = jsonResponse.stream.multi.main.url;
 
-        // Function to throttle
-        function throttle(func, delay) {
-          let lastCall = 0;
-          return function (...args) {
-            const now = new Date().getTime();
-            if (now - lastCall < delay) {
-              return;
-            }
-            lastCall = now;
-            return func(...args);
-          };
-        }
-
-        // Function to store video progress
-        function storeVideoProgress(currentTime) {
-          localStorage.setItem(episodeId, currentTime.toString());
-          console.log("Storing time: ", currentTime);
-        }
-
-        // Throttled version of the storeVideoProgress function
-        const throttledStoreVideoProgress = throttle(storeVideoProgress, 10000);
-
-        player.on("timeupdate", function () {
-          throttledStoreVideoProgress(player.currentTime);
-        });
-
-        player.on("pause", function () {
-          storeVideoProgress(player.currentTime);
-          console.log("Pause event fired. Current time:", player.currentTime);
-        });
-
-        player.on("ended", function () {
-          storeVideoProgress(player.currentTime);
-          console.log("Video ended. Final time:", player.currentTime);
-        });
-
-        //... (code before is unchanged)
-
-        // For non-HLS
-        video.addEventListener("canplaythrough", function () {
-          const savedTime = parseFloat(localStorage.getItem(episodeId)) || 0;
-          if (player.playing !== true && player.currentTime !== savedTime) {
-            player.currentTime = savedTime;
-          }
-          video.play();
-        });
-
-        if (Hls.isSupported()) {
-          const hls = new Hls();
-          hls.loadSource(mainUrl);
-          hls.attachMedia(video);
-          hls.on(Hls.Events.MANIFEST_PARSED, function () {
-            video.addEventListener("canplaythrough", function () {
-              const savedTime =
-                parseFloat(localStorage.getItem(episodeId)) || 0;
-              if (player.playing !== true && player.currentTime !== savedTime) {
-                player.currentTime = savedTime;
-              }
-              video.play();
-            });
+          const video = document.querySelector("#player");
+          const player = new Plyr(video, {
+            controls: [
+              "play-large",
+              "rewind",
+              "play",
+              "fast-forward",
+              "progress",
+              "current-time",
+              "duration",
+              "mute",
+              "volume",
+              "captions",
+              "settings",
+              "pip",
+              "airplay",
+              "fullscreen",
+            ],
           });
-        } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-          video.src = mainUrl;
+
+          // Function to throttle
+          function throttle(func, delay) {
+            let lastCall = 0;
+            return function (...args) {
+              const now = new Date().getTime();
+              if (now - lastCall < delay) {
+                return;
+              }
+              lastCall = now;
+              return func(...args);
+            };
+          }
+
+          // Function to store video progress
+          function storeVideoProgress(currentTime) {
+            localStorage.setItem(episodeId, currentTime.toString());
+            console.log("Storing time: ", currentTime);
+          }
+
+          // Throttled version of the storeVideoProgress function
+          const throttledStoreVideoProgress = throttle(storeVideoProgress, 10000);
+
+          player.on("timeupdate", function () {
+            throttledStoreVideoProgress(player.currentTime);
+          });
+
+          player.on("pause", function () {
+            storeVideoProgress(player.currentTime);
+            console.log("Pause event fired. Current time:", player.currentTime);
+          });
+
+          player.on("ended", function () {
+            storeVideoProgress(player.currentTime);
+            console.log("Video ended. Final time:", player.currentTime);
+          });
+
+          // For non-HLS
           video.addEventListener("canplaythrough", function () {
             const savedTime = parseFloat(localStorage.getItem(episodeId)) || 0;
             if (player.playing !== true && player.currentTime !== savedTime) {
@@ -167,8 +140,34 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             video.play();
           });
+
+          if (Hls.isSupported()) {
+            const hls = new Hls();
+            hls.loadSource(mainUrl);
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED, function () {
+              video.addEventListener("canplaythrough", function () {
+                const savedTime = parseFloat(localStorage.getItem(episodeId)) || 0;
+                if (player.playing !== true && player.currentTime !== savedTime) {
+                  player.currentTime = savedTime;
+                }
+                video.play();
+              });
+            });
+          } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+            video.src = mainUrl;
+            video.addEventListener("canplaythrough", function () {
+              const savedTime = parseFloat(localStorage.getItem(episodeId)) || 0;
+              if (player.playing !== true && player.currentTime !== savedTime) {
+                player.currentTime = savedTime;
+              }
+              video.play();
+            });
+          } else {
+            console.error("This is a legacy browser that does not support HLS.");
+          }
         } else {
-          console.error("This is a legacy browser that does not support HLS.");
+          console.error("JSON response does not have the expected structure.");
         }
       } else {
         console.error("Error fetching server URL:", data.statusText);
@@ -177,5 +176,6 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Error:", error);
     }
   }
+
   main();
 });
