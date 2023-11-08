@@ -1,53 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Anime Site</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+  <meta charset="UTF-8">
+  <title>Anime Site</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 </head>
+
 <body>
-<header>
+  <header>
     <div class="header-wrapper">
-        <a href="index.html">
-            <div class="logo">Anime Site</div>
-        </a>
+      <a href="index.html">
+        <div class="logo">Anime Site</div>
+      </a>
     </div>
-</header>
-<main>
+  </header>
+  <main>
     <section class="search-section">
-        <div class="container">
-            <h2>Search Anime</h2>
-            <form id="search-form" action="" method="get">
-                <input type="search" name="search" placeholder="Search for Anime...">
-                <button type="submit">Search</button>
-<div class="switch-container">
-    <div id="toggle-state">Sub</div>
-    <label class="switch">
-        <input type="checkbox" id="language-toggle" checked>
-        <span class="slider round"></span>
-    </label>
-</div>
-
-            </form>
-
-            <div id="search-results"></div>
-            <div class="loading-spinner" id="loading-spinner">
-                <div class="spinner"></div>
-              </div>
-            <div id="pagination" class="pagination hidden">
-                <button id="prev-page">Previous</button>
-                <button id="next-page">Next</button>
-            </div>
+      <div class="container">
+        <h2>Search Anime</h2>
+        <form id="search-form" action="" method="get">
+          <input type="search" name="search" placeholder="Search for Anime...">
+          <button type="submit">Search</button>
+          <div class="switch-container">
+            <div id="toggle-state">Sub</div>
+            <label class="switch">
+              <input type="checkbox" id="language-toggle" checked>
+              <span class="slider round"></span>
+            </label>
+          </div>
+        </form>
+        <div id="search-results"></div>
+        <div class="loading-spinner" id="loading-spinner">
+          <div class="spinner"></div>
         </div>
+        <div id="pagination" class="pagination hidden">
+          <button id="prev-page">Previous</button>
+          <button id="next-page">Next</button>
+        </div>
+      </div>
     </section>
-</main>
-<footer>
+  </main>
+  <footer>
     <div class="footer-wrapper">
-        <p>&copy; Anime Site 2023</p>
+      <p>&copy; Anime Site 2023</p>
     </div>
-</footer>
-<script src="main.js"></script>
+  </footer>
+  <script src="main.js"></script>
 </body>
 </html>
