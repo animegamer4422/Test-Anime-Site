@@ -9,12 +9,14 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  border-radius: 10px; 
 }
 
 /* search section design */
 .search-section {
   background-color: #282a36;
   padding: 20px 0;
+  border-radius: 10px; 
 }
 
 .container {
@@ -37,6 +39,7 @@ h2 {
 .header-wrapper {
   background: linear-gradient(90deg, #ff69b4, #ff1493);
   padding: 10px 20px;
+  border-radius: 10px;
 }
 
 main {
@@ -54,15 +57,18 @@ a {
   text-decoration: none;
   display: block;
   color: hsl(0, 0%, 80%);
+  border-radius: 5px; 
 }
 
-/* Switch styles */
+/* the sub/dub toggle */
 .switch-container {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  margin-top: -2px;
+  margin-left: 10px;
 }
 
+/* Switch(dub/sub) design */
 .switch {
   position: relative;
   display: inline-block;
@@ -86,6 +92,7 @@ a {
   bottom: 0;
   background-color: #ccc;
   transition: background-color 0.4s;
+  border-radius: 34px;
 }
 
 .slider:before {
@@ -97,6 +104,7 @@ a {
   bottom: 4px;
   background-color: white;
   transition: transform 0.4s;
+  border-radius: 50%;
 }
 
 input:checked + .slider {
@@ -111,7 +119,12 @@ input:checked + .slider:before {
   transform: translateX(26px);
 }
 
-/* Rounded sliders */
+#switch-text {
+  margin-right: 10px;
+  color: #fff;
+}
+
+/* rounded sliders */
 .slider.round {
   border-radius: 34px;
 }
@@ -120,7 +133,7 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
-/* Anime description styles */
+/* anime description design */
 .anime-description,
 .anime-image {
   background-color: #162032;
@@ -146,41 +159,50 @@ input:checked + .slider:before {
   max-width: 900px;
 }
 
-/* Search section styles */
+/* search & button design */
 .search-section {
   background-color: #282a36;
   padding: 20px 0;
+  border-radius: 10px;
 }
 
 #search-form {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 input[type="search"] {
   padding: 10px;
   border: none;
-  border-radius: 5px 0 0 5px;
+  border-radius: 10px 0 0 10px;
   font-size: 16px;
   background-color: #fff;
+  transition: all 0.3s ease-in-out;
+  width: 200px;
+}
+
+input[type="search"]:focus {
+  width: 250px;
 }
 
 button[type="submit"] {
   padding: 10px 20px;
   border: none;
-  border-radius: 0 5px 5px 0;
+  border-radius: 0 10px 10px 0;
   background-color: #ff69b4;
   color: #fff;
   font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, transform 0.3s;
 }
 
 button[type="submit"]:hover {
   background-color: #ff1493;
+  transform: scale(1.05);
 }
 
-/* Search results styles */
+/* search result button */
 #search-results {
   display: flex;
   flex-wrap: wrap;
@@ -214,6 +236,7 @@ button[type="submit"]:hover {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 9999;
+  border-radius: 10px; 
 }
 
 .spinner {
@@ -239,7 +262,7 @@ button[type="submit"]:hover {
   }
 }
 
-/* Video player Styles */
+/* video player design */
 .video-section {
   display: flex;
   flex-direction: column;
@@ -261,9 +284,10 @@ button[type="submit"]:hover {
   position: relative;
   top: 0;
   left: 0;
+  border-radius: 10px; 
 }
 
-/* episode style */
+/* episode design */
 .current-ep {
   display: inline-block;
   background-color: #f06292;
@@ -317,7 +341,7 @@ button[type="submit"]:hover {
   background-color: #f8bbd0;
 }
 
-/* Anime-details styles */
+/* anime detail design */
 .episode {
   display: inline-block;
   background-color: #f06292;
@@ -339,11 +363,12 @@ button[type="submit"]:hover {
   text-align: center;
 }
 
-/* Footer styles */
+/* footer design or style */
 footer {
   background: linear-gradient(90deg, #ff69b4, #ff1493);
   padding: 10px 20px;
   text-align: center;
+  border-radius: 10px; 
 }
 
 #video-section {
@@ -422,11 +447,11 @@ footer {
   .search-section form#search-form input[type="search"] {
     width: 100%;
     margin-bottom: 10px;
-    border-radius: 5px;
+    border-radius: 10px;
   }
 
   .search-section form#search-form button[type="submit"] {
     width: 100%;
-    border-radius: 5px;
+    border-radius: 10px;
   }
 }
