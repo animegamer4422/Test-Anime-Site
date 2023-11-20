@@ -436,6 +436,28 @@ footer {
 
 .list-box {
   width: 80%;
+  margin-left: 31px;
+  margin-top: -55px;
+  overflow-y: auto;
+}
+
+/* scrollbar design */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f06292;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #e63772;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a0375a;
 }
 
 @media (max-height: 300px) {
