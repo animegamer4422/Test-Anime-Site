@@ -175,7 +175,7 @@ input:checked + .slider:before {
 input[type="search"] {
   padding: 10px;
   border: none;
-  border-radius: 5px 0 0 5px; /*Original size was "10px 0 0 10px"  but i change it to be more square dont want a lot of rounded stuff*/
+  border-radius: 5px 0 0 5px;
   font-size: 16px;
   background-color: #fff;
   transition: all 0.3s ease-in-out;
@@ -290,7 +290,7 @@ button[type="submit"]:hover {
 /* episode design */
 .current-ep {
   display: inline-block;
-  background-color: #f06292;
+  outline: 2px solid #f06292; 
   color: #fff;
   border-radius: 5px;
   text-decoration: none;
@@ -329,7 +329,8 @@ button[type="submit"]:hover {
 }
 
 .episode-button:hover {
-  background-color: #e91e63;
+  background-color: transparent;
+  outline: 2px solid #f06292; 
 }
 
 .episode-button:disabled {
@@ -343,19 +344,21 @@ button[type="submit"]:hover {
 
 /* anime detail design */
 .episode {
-  display: inline-block;
+  display: block;
   background-color: #f06292;
   color: #fff;
   border-radius: 5px;
   text-decoration: none;
-  padding: 0.5rem 1.5rem;
-  margin: 0.5rem;
+  padding: 10px;
+  margin: 5px 0;
   transition: background-color 0.3s;
   cursor: pointer;
 }
 
 .episode:hover {
-  background-color: #e91e63;
+  background-color: transparent;
+  color: #f06292;
+  outline: 2px solid #f06292;
 }
 
 .current-ep {
@@ -365,7 +368,8 @@ button[type="submit"]:hover {
 
 /* footer design or style */
 footer {
-  background: linear-gradient(90deg, #ff69b4, #ff1493);
+  /*background: linear-gradient(90deg, #ff69b4, #ff1493);*/
+  background-color: transparent;
   padding: 10px 20px;
   text-align: center;
   border-radius: 10px; 
@@ -381,6 +385,7 @@ footer {
 }
 
 .description {
+  background-color: #22314f;
   font-size: 16px;
   line-height: 1.5;
   color: #f5f5f5;
@@ -391,18 +396,21 @@ footer {
   background-color: #162032;
   padding: 20px 30px;
   border-radius: 10px;
-  flex-direction: row;
-  margin-top: 5%;
-  flex-wrap: wrap;
+  margin-top: 20px;
   max-height: 400px;
-  max-width: 900px;
   overflow: auto;
+}
+
+.episode-list p {
+  color: #fff;
+  font-size: 18px;
+  margin-bottom: 10px;
 }
 
 .pagination {
   display: flex;
   justify-content: center;
-  margin: 2rem 0;
+  margin-top: 20px;
 }
 
 .pagination button {
@@ -413,7 +421,7 @@ footer {
   cursor: pointer;
   font-size: 1.2rem;
   margin: 0 1rem;
-  padding: 0.5rem 1.5rem;
+  padding: 10px 20px;
   transition: background-color 0.3s;
 }
 
@@ -434,12 +442,23 @@ footer {
   display: none;
 }
 
+
 .list-box {
   width: 80%;
   margin-left: 31px;
   margin-top: -55px;
+  margin: 30px auto;
+  overflow-y: auto
+}
+
+/*
+.list-box {
+  width: 80%;
+  margin: 30px auto;
+  max-width: 900px;
   overflow-y: auto;
 }
+*/
 
 /* scrollbar design */
 ::-webkit-scrollbar {
@@ -461,6 +480,10 @@ footer {
 }
 
 @media (max-height: 300px) {
+  .search-section {
+    padding: 5px 0; 
+  }
+  
   .search-section form#search-form {
     flex-direction: column;
     align-items: center;
@@ -476,4 +499,140 @@ footer {
     width: 100%;
     border-radius: 10px;
   }
+}
+
+.anime-image {
+  background-color: #162032;
+  padding: 15px;
+  border-radius: 8px;
+  max-height: 100%;
+  overflow-y: hidden;
+  padding-bottom: 40px;
+  margin: 30px;
+  position: relative;
+  outline: 2px solid #f06292; 
+}
+
+#anime-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+.anime-image,
+.anime-description {
+  flex: 1;
+  margin: 0 10px;
+}
+
+.anime-description-container {
+  margin-top: 20px;
+}
+
+.anime-description-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.anime-description > .data {
+  font-size: 25px;
+  margin: 15px 0;
+  word-spacing: 5px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.anime-description p {
+  font-size: 18px;
+  font-weight: 500;
+  color: #f5f5f5;
+  margin-bottom: 10px;
+}
+
+#anime-genres {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+#anime-genres span {
+  background-color: #f06292;
+  color: #fff; 
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.3s, color 0.3s; 
+}
+
+#anime-genres span:hover {
+  background-color: transparent; 
+  color: #f06292;
+  outline: 2px solid #f06292; 
+}
+
+.pagination-button {
+  display: inline-block;
+  background-color: #f06292;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  margin: 0 5px;
+  padding: 10px 15px;
+  transition: background-color 0.3s;
+}
+
+.pagination-button:hover {
+  background-color: #e91e63;
+}
+
+.pagination-button:disabled {
+  background-color: #f8bbd0;
+  cursor: not-allowed;
+}
+
+.pagination-button:disabled:hover {
+  background-color: #f8bbd0;
+}
+
+/* Episode dropdown design */
+.custom-dropdown-container {
+  position: relative;
+  display: inline-block;
+}
+
+.custom-dropdown {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 150%; 
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #e91e63;
+  border-radius: 15px; 
+  background-color: #fff;
+  cursor: pointer;
+  outline: none;
+  position: relative; 
+  z-index: 1; 
+}
+
+.custom-dropdown:hover,
+.custom-dropdown:focus {
+  border-color: #ff4081;
+}
+
+.dropdown-open {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-in-out;
+}
+
+.dropdown-open.active {
+  max-height: 200px;
+  transition: max-height 0.5s ease-in-out;
 }
