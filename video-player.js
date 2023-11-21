@@ -97,18 +97,18 @@ document.addEventListener("DOMContentLoaded", () => {
           });
 
           const watermark = document.createElement('div');
-          watermark.innerHTML = '<p style="position: absolute; top: -20px; right: 10px; color: pink; font-size: 24px;">Anime Site</p>';
+          watermark.innerHTML = '<p style="position: absolute; top: -18px; right: 20px; color: pink; font-size: 24px;">Anime Site</p>';
           document.querySelector('.plyr__video-wrapper').appendChild(watermark);
 
           document.addEventListener('fullscreenchange', () => {
             const isFullscreen = document.fullscreenElement !== null;
-            watermark.style.top = isFullscreen ? '10px' : '-20px';
+            watermark.style.top = isFullscreen ? '20px' : '-20px';
             watermark.style.right = isFullscreen ? '20px' : '10px';
           });
 
           function throttle(func, delay) {
             let lastCall = 0;
-            return function (...args) {
+            return function(...args) {
               const now = new Date().getTime();
               if (now - lastCall < delay) {
                 return;
@@ -125,21 +125,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
           const throttledStoreVideoProgress = throttle(storeVideoProgress, 10000);
 
-          player.on("timeupdate", function () {
+          player.on("timeupdate", function() {
             throttledStoreVideoProgress(player.currentTime);
           });
 
-          player.on("pause", function () {
+          player.on("pause", function() {
             storeVideoProgress(player.currentTime);
             console.log("Pause event fired. Current time:", player.currentTime);
           });
 
-          player.on("ended", function () {
+          player.on("ended", function() {
             storeVideoProgress(player.currentTime);
             console.log("Video ended. Final time:", player.currentTime);
           });
 
-          video.addEventListener("canplaythrough", function () {
+          video.addEventListener("canplaythrough", function() {
             const savedTime = parseFloat(localStorage.getItem(episodeId)) || 0;
             if (player.playing !== true && player.currentTime !== savedTime) {
               player.currentTime = savedTime;
@@ -151,8 +151,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const hls = new Hls();
             hls.loadSource(mainUrl);
             hls.attachMedia(video);
-            hls.on(Hls.Events.MANIFEST_PARSED, function () {
-              video.addEventListener("canplaythrough", function () {
+            hls.on(Hls.Events.MANIFEST_PARSED, function() {
+              video.addEventListener("canplaythrough", function() {
                 const savedTime = parseFloat(localStorage.getItem(episodeId)) || 0;
                 if (player.playing !== true && player.currentTime !== savedTime) {
                   player.currentTime = savedTime;
@@ -162,7 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
           } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
             video.src = mainUrl;
-            video.addEventListener("canplaythrough", function () {
+            video.addEventListener("canplaythrough", function() {
               const savedTime = parseFloat(localStorage.getItem(episodeId)) || 0;
               if (player.playing !== true && player.currentTime !== savedTime) {
                 player.currentTime = savedTime;
