@@ -96,7 +96,16 @@ document.addEventListener("DOMContentLoaded", () => {
             ],
           });
 
-          // Function to throttle
+          const watermark = document.createElement('div');
+          watermark.innerHTML = '<p style="position: absolute; top: -20px; right: 10px; color: pink; font-size: 24px;">Anime Site</p>';
+          document.querySelector('.plyr__video-wrapper').appendChild(watermark);
+
+          document.addEventListener('fullscreenchange', () => {
+            const isFullscreen = document.fullscreenElement !== null;
+            watermark.style.top = isFullscreen ? '10px' : '-20px';
+            watermark.style.right = isFullscreen ? '20px' : '10px';
+          });
+
           function throttle(func, delay) {
             let lastCall = 0;
             return function (...args) {
@@ -109,13 +118,11 @@ document.addEventListener("DOMContentLoaded", () => {
             };
           }
 
-          // Function to store video progress
           function storeVideoProgress(currentTime) {
             localStorage.setItem(episodeId, currentTime.toString());
             console.log("Storing time: ", currentTime);
           }
 
-          // Throttled version of the storeVideoProgress function
           const throttledStoreVideoProgress = throttle(storeVideoProgress, 10000);
 
           player.on("timeupdate", function () {
@@ -132,7 +139,6 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("Video ended. Final time:", player.currentTime);
           });
 
-          // For non-HLS
           video.addEventListener("canplaythrough", function () {
             const savedTime = parseFloat(localStorage.getItem(episodeId)) || 0;
             if (player.playing !== true && player.currentTime !== savedTime) {
