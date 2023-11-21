@@ -175,7 +175,7 @@ input:checked + .slider:before {
 input[type="search"] {
   padding: 10px;
   border: none;
-  border-radius: 10px 0 0 10px;
+  border-radius: 5px 0 0 5px; /*Original size was "10px 0 0 10px"  but i change it to be more square dont want a lot of rounded stuff*/
   font-size: 16px;
   background-color: #fff;
   transition: all 0.3s ease-in-out;
