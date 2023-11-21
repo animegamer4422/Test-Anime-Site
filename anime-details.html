@@ -1,40 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta charset="UTF-8">
-	<title>Anime Details</title>
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
-	<link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <title>Anime Details</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+  <link rel="stylesheet" href="styles.css" />
   <script src="anime-details.js"></script>
   <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 </head>
 
 <body>
-    <header>
-		<div class="header-wrapper">
-        <a href="index.html">
-		<div class="logo">Anime Site</div>
-        </a>
+  <header>
+    <div class="header-wrapper">
+      <a href="index.html">
+        <div class="logo">Anime Site</div>
+      </a>
     </div>
-	</header>
+  </header>
 
-    <main>
-        <section class="anime-details">
-          <div class="anime-image">
-            <h1 id="anime-title"></h1>
-              <img id="anime-image" src="" alt="" loading="lazy" />
-              <p id="anime-description"></p>
+  <main>
+    <section class="anime-details">
+      <div class="anime-image">
+        <h1 id="anime-title"></h1>
+        <img id="anime-image" src="" alt="" loading="lazy" />
+        <p id="anime-description"></p>
+        <div id="anime-genres"></div>
+      </div>
+      <div class="list-box">
+        <div class="episode-controls">
+          <label for="episode-dropdown">Episodes:</label>
+          <div class="custom-dropdown-container">
+            <select id="episode-dropdown" class="custom-dropdown"></select>
           </div>
-          <div class="list-box">
-            <ul id="anime-episodes" class="episode-list"><p> Episodes </p></ul>
-          </div>
-        </section>
-      </main>
-  </body>
-	<footer>
-		<div class="footer-wrapper">
-			<p>&copy; Anime Site 2023</p>
-		</div>
-	</footer>
+        </div>
+        <ul id="anime-episodes" class="episode-list"><p> Episodes </p></ul>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-wrapper">
+      <p>&copy; Anime Site 2023</p>
+    </div>
+  </footer>
 </body>
+
 </html>
