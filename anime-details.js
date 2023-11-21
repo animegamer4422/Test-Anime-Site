@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const primaryApiUrl = `https://animetrix-api.vercel.app/anime/gogoanime/info/${animeId}`;
     const fallbackUrl = `https://api.consumet.org/anime/gogoanime/info/${animeId}`;
 
-    console.log(primaryApiUrl)
     try {
       const response = await fetch(primaryApiUrl);
 
@@ -25,8 +24,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       await displayDetails(data);
     } catch (primaryApiError) {
       console.error('Error:', primaryApiError);
-      
-      // Fallback API
       console.log('Fetching data from fallback API...');
       try {
         const fallbackResponse = await fetch(fallbackUrl);
@@ -42,49 +39,102 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     }
   } else {
-    // Redirect to the main page if there's no animeId in the URL parameters or sessionStorage
     window.location.href = 'index.html';
   }
 });
-
-
 
 async function displayDetails(anime) {
   const title = document.getElementById('anime-title');
   const image = document.getElementById('anime-image');
   const description = document.getElementById('anime-description');
-  const episodes = document.getElementById('anime-episodes');
+  const episodesList = document.getElementById('anime-episodes');
+  const genres = document.getElementById('anime-genres');
+  const episodeDropdown = document.getElementById('episode-dropdown');
 
   title.textContent = anime.title;
   image.src = anime.image;
   image.alt = anime.title;
   description.textContent = anime.description;
 
-  // Display the list of episodes
-  for (const episode of anime.episodes) {
+  genres.innerHTML = '';
+  episodesList.innerHTML = '';
+
+  for (const genre of anime.genres) {
+    const genreItem = document.createElement('span');
+    genreItem.textContent = genre;
+    genres.appendChild(genreItem);
+  }
+
+  populateEpisodeDropdown(anime.episodes);
+
+  const defaultRange = episodeDropdown.options[0].value;
+  const [startEpisode, endEpisode] = defaultRange.split('-');
+  await displayEpisodes(anime.episodes, parseInt(startEpisode), parseInt(endEpisode));
+
+  episodeDropdown.addEventListener('change', async (event) => {
+    const selectedRange = event.target.value.split('-');
+    const startEpisode = parseInt(selectedRange[0]);
+    const endEpisode = parseInt(selectedRange[1]);
+    await displayEpisodes(anime.episodes, startEpisode, endEpisode);
+  });
+}
+
+async function displayEpisodes(allEpisodes, startEpisode, endEpisode) {
+  const episodesList = document.getElementById('anime-episodes');
+
+  episodesList.innerHTML = ''; 
+
+  for (let i = startEpisode - 1; i < endEpisode; i++) {
+    const episode = allEpisodes[i];
     const listItem = document.createElement('li');
     const link = document.createElement('a');
     link.textContent = `Episode ${episode.number}`;
 
-    // Add data attributes for episode number and any other required parameters
     link.dataset.episodeNumber = episode.number;
     link.dataset.episodeId = episode.id;
-
     link.classList.add('episode');
 
     listItem.appendChild(link);
-    episodes.appendChild(listItem);
+    episodesList.appendChild(listItem);
   }
 
-  // Add the click event listener to the dynamically created episode elements
   document.querySelectorAll('.episode').forEach(episodeLink => {
     episodeLink.addEventListener('click', async (event) => {
       const episodeNumber = event.target.dataset.episodeNumber;
       const episodeId = event.target.dataset.episodeId;
-      
 
-      // Now navigate to the video-player.html page and pass the necessary parameters
       window.location.href = `video-player.html?episodeNumber=${episodeNumber}&episodeId=${episodeId}`;
     });
   });
 }
+
+function populateEpisodeDropdown(allEpisodes) {
+  const episodeDropdown = document.getElementById('episode-dropdown');
+  const maxEpisodesPerRange = 100;
+  let startEpisode = 1;
+
+  episodeDropdown.innerHTML = '';
+
+  while (startEpisode <= allEpisodes.length) {
+    const endEpisode = Math.min(startEpisode + maxEpisodesPerRange - 1, allEpisodes.length);
+    const option = document.createElement('option');
+    option.value = `${startEpisode}-${endEpisode}`;
+    option.textContent = `${startEpisode}-${endEpisode}`;
+    episodeDropdown.appendChild(option);
+
+    startEpisode += maxEpisodesPerRange;
+  }
+}
+
+const dropdownContainer = document.querySelector('.custom-dropdown-container');
+const episodeList = document.getElementById('anime-episodes');
+
+dropdownContainer.addEventListener('click', function () {
+  episodeList.classList.toggle('dropdown-open');
+});
+
+document.addEventListener('click', function (e) {
+  if (!dropdownContainer.contains(e.target)) {
+    episodeList.classList.remove('dropdown-open');
+  }
+});
