@@ -13,17 +13,23 @@
   <header>
     <div class="header-wrapper">
       <a href="index.html">
-        <div class="logo">Anime Site</div>
+        <div class="logo-container">
+          <img src="/assets/images/Watermark.png" alt="Logo" class="logo-image" />
+          <div class="logo">AnimeSite</div>
+        </div>
       </a>
     </div>
   </header>
+
   <main>
     <section class="search-section">
       <div class="container">
         <h2>Search Anime</h2>
         <form id="search-form" action="" method="get">
-          <input type="search" name="search" placeholder="Search for Anime...">
-          <button type="submit">Search</button>
+          <div id="search-container">
+            <input type="search" name="search" placeholder="Search for Anime...">
+            <button type="submit">Search</button>
+          </div>
           <div class="switch-container">
             <div id="toggle-state">Sub</div>
             <label class="switch">
@@ -50,4 +56,5 @@
   </footer>
   <script src="main.js"></script>
 </body>
+
 </html>
