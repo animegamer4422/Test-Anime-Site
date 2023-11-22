@@ -125,16 +125,3 @@ function populateEpisodeDropdown(allEpisodes) {
     startEpisode += maxEpisodesPerRange;
   }
 }
-
-const dropdownContainer = document.querySelector('.custom-dropdown-container');
-const episodeList = document.getElementById('anime-episodes');
-
-dropdownContainer.addEventListener('click', function () {
-  episodeList.classList.toggle('dropdown-open');
-});
-
-document.addEventListener('click', function (e) {
-  if (!dropdownContainer.contains(e.target)) {
-    episodeList.classList.remove('dropdown-open');
-  }
-});
