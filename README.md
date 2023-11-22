@@ -1,5 +1,3 @@
-<!-- AnimeSite README -->
-
 <p align="center">
   <img src="https://github.com/animegamer4422/Test-Anime-Site/assets/101320329/e44039f9-8eb8-4507-bc30-9e5fb1ecb84e" alt="Watermark" width="200">
 </p>
@@ -70,14 +68,14 @@ This project is licensed under the [MIT License](https://choosealicense.com/lice
   <tr>
     <td align="center">
       <a href="https://github.com/animegamer4422">
-        <img src="https://avatars.githubusercontent.com/u/71986052?v=4" height="100" width="100" alt="animegamer4422 avatar" />
+        <img src="https://avatars.githubusercontent.com/u/71986052?v=4" height="100" width="100" alt="animegamer4422 avatar"/>
         <br>
         <strong>AnimeGamer</strong>
       </a>
     </td>
     <td align="center">
       <a href="https://github.com/YellowGreg">
-        <img src="https://avatars.githubusercontent.com/u/101320329?v=4" height="100" width="100" alt="YellowGreg avatar" />
+        <img src="https://avatars.githubusercontent.com/u/101320329?v=4" height="100" width="100" alt="YellowGreg avatar"/>
         <br>
         <strong>YellowGreg</strong>
       </a>
