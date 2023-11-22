@@ -37,16 +37,24 @@ h2 {
 }
 
 .header-wrapper {
-  background: linear-gradient(90deg, #ff69b4, #ff1493);
+  background: #FF6EC7;
   padding: 10px 20px;
   border-radius: 10px;
 }
 
-main {
-  flex-grow: 1; 
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo-image {
+  width: 60px; 
+  height: auto; 
+  margin-right: 5px;
 }
 
 .logo {
+  font-family: Elephant, sans-serif;
   font-size: 24px;
   font-weight: 500;
   color: #fff;
@@ -57,7 +65,7 @@ a {
   text-decoration: none;
   display: block;
   color: hsl(0, 0%, 80%);
-  border-radius: 5px; 
+  border-radius: 5px;
 }
 
 /* the sub/dub toggle */
