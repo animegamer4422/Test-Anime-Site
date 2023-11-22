@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="https://github.com/animegamer4422/Test-Anime-Site/assets/101320329/e44039f9-8eb8-4507-bc30-9e5fb1ecb84e" alt="Watermark" width="200">
-</p>
-
 # <p align="center">AnimeSite</p>
 
 <p align="center">
