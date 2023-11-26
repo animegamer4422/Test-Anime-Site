@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const primaryApiUrl = `https://animetrix-api.vercel.app/anime/gogoanime/${query}?page=${pageNumber}&limit=21`;
-    const fallbackUrl = `https://api.consumet.org/anime/gogoanime/${query}?page=${pageNumber}&limit=21`;
+    const fallbackUrl = `https://api-consumet-psi.vercel.app/anime/gogoanime/${query}?page=${pageNumber}&limit=21`;
 
     console.log(primaryApiUrl)
     showLoadingSpinner();
