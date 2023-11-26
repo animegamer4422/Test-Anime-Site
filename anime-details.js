@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   if (animeId) {
     const primaryApiUrl = `https://animetrix-api.vercel.app/anime/gogoanime/info/${animeId}`;
-    const fallbackUrl = `https://api.consumet.org/anime/gogoanime/info/${animeId}`;
+    const fallbackUrl = `https://api-consumet-psi.vercel.app/anime/gogoanime/info/${animeId}`;
 
     try {
       const response = await fetch(primaryApiUrl);
