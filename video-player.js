@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
           const watermark = document.createElement('div');
           watermark.innerHTML = '<p style="position: absolute; top: -18px; right: 20px; color: pink; font-size: 24px; font-family: Elephant, sans-serif; display: inline-block; opacity: 0.5;">AnimeSite</p>' +
-            '<img src="/assets/images/Watermark.png" style="position: absolute; top: -8px; right: 136px; width: 80px; height: auto; opacity: 0.4;">';
+            '<img src="./assets/images/Watermark.png" style="position: absolute; top: -8px; right: 136px; width: 80px; height: auto; opacity: 0.4;">';
           document.querySelector('.plyr__video-wrapper').appendChild(watermark);
 
           document.addEventListener('fullscreenchange', () => {
