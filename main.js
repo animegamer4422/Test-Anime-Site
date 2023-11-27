@@ -1,187 +1,188 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const searchForm = document.getElementById('search-form');
-  const searchResults = document.getElementById('search-results');
-  const prevPageButton = document.getElementById('prev-page');
-  const nextPageButton = document.getElementById('next-page');
-  const toggleSwitch = document.querySelector('.switch input[type="checkbox"]');
-  const toggleState = document.getElementById('toggle-state');
+document.addEventListener("DOMContentLoaded", () => {
+  async function main() {
+    const prevEpisodeButton = document.getElementById("prev-episode");
+    const nextEpisodeButton = document.getElementById("next-episode");
+    let videoStarted = true;
 
-  let query = '';
-  let pageNumber = 1;
-
-  searchForm.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    query = event.target.search.value;
-    pageNumber = 1;
-    await fetchAndDisplayData(query, pageNumber);
-  });
-
-  prevPageButton.addEventListener('click', async () => {
-    pageNumber--;
-    await fetchAndDisplayData(query, pageNumber);
-  });
-
-  nextPageButton.addEventListener('click', async () => {
-    pageNumber++;
-    await fetchAndDisplayData(query, pageNumber);
-  });
-
-  window.onload = function() {
-    const savedToggleState = JSON.parse(localStorage.getItem('toggleState'));
-    toggleSwitch.checked = savedToggleState;
-    if (toggleSwitch.checked) {
-      toggleState.textContent = 'Sub';
-    } else {
-      toggleState.textContent = 'Dub';
-    }
-  };
-
-  toggleSwitch.addEventListener('change', function() {
-    localStorage.setItem('toggleState', JSON.stringify(this.checked));
-
-    if (this.checked) {
-      toggleState.textContent = 'Sub';
-    } else {
-      toggleState.textContent = 'Dub';
+    function getParameterByName(name, url) {
+      if (!url) url = window.location.href;
+      name = name.replace(/[\[\]]/g, "\\$&");
+      const regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)");
+      const results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return "";
+      return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
-    searchForm.dispatchEvent(new Event('submit', { cancelable: true }));
-  });
+    const episodeNumber = parseInt(getParameterByName("episodeNumber"));
+    episodeId = getParameterByName("episodeId");
+    const baseAnimeId = episodeId.substring(0, episodeId.lastIndexOf("-"));
 
-  searchForm.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    query = event.target.search.value;
-    pageNumber = 1;
-    await fetchAndDisplayData(query, pageNumber);
-  });
-
-  function filterResults(results) {
-    if (toggleSwitch.checked) {
-      return results.filter(result => !result.title.toLowerCase().includes('(dub)'));
-    } else {
-      return results.filter(result => result.title.toLowerCase().includes('(dub)'));
-    }
-  }
-
-  function showLoadingSpinner() {
-    document.getElementById('loading-spinner').style.display = 'block';
-  }
-
-  function hideLoadingSpinner() {
-    document.getElementById('loading-spinner').style.display = 'none';
-  }
-
-  async function fetchAndDisplayData(query, pageNumber) {
-    if (!query.trim()) {
-      searchResults.innerHTML = '';
-      togglePaginationVisibility(false);
-      hideLoadingSpinner();
-      return;
+    function updateEpisodeButtons() {
+      prevEpisodeButton.disabled = episodeNumber <= 1;
     }
 
-    const primaryApiUrl = `https://api-consumet-org-six.vercel.app/anime/gogoanime/${query}?page=${pageNumber}&limit=21`;
-    const fallbackUrl = `https://api-consumet-psi.vercel.app/anime/gogoanime/${query}?page=${pageNumber}&limit=21`;
+    updateEpisodeButtons();
 
-    console.log(primaryApiUrl)
-    showLoadingSpinner();
+    prevEpisodeButton.addEventListener("click", () => {
+      const prevEpisodeNumber = episodeNumber - 1;
+      const prevEpisodeId = `${baseAnimeId}-${prevEpisodeNumber}`;
+      window.location.href = `video-player.html?episodeNumber=${prevEpisodeNumber}&episodeId=${prevEpisodeId}`;
+    });
+
+    nextEpisodeButton.addEventListener("click", () => {
+      const nextEpisodeNumber = episodeNumber + 1;
+      const nextEpisodeId = `${baseAnimeId}-${nextEpisodeNumber}`;
+      window.location.href = `video-player.html?episodeNumber=${nextEpisodeNumber}&episodeId=${nextEpisodeId}`;
+    });
+
+    async function fetchAnimeDetails(animeId) {
+      const primaryApiUrl = `https://api-consumet-org-six.vercel.app/anime/gogoanime/${animeId}`;
+      const fallbackUrl = `https://api.consumet.org/anime/gogoanime/${animeId}`;
+
+      try {
+        const response = await fetch(primaryApiUrl);
+        if (!response.ok)
+          throw new Error(`Error fetching anime details from primary API: ${response.statusText}`);
+        return response.json();
+      } catch (primaryApiError) {
+        console.error("Error:", primaryApiError);
+
+        // Fallback API
+        console.log("Fetching data from fallback API...");
+        const fallbackResponse = await fetch(fallbackUrl);
+        if (!fallbackResponse.ok)
+          throw new Error(`Error fetching anime details from fallback API: ${fallbackResponse.statusText}`);
+        return fallbackResponse.json();
+      }
+    }
+
+    function displayAnimeDetails(anime, episodeNumber) {
+      const currentEpisodeElement = document.getElementById("current-episode");
+      currentEpisodeElement.textContent = `Currently Playing: Episode ${episodeNumber}`;
+    }
 
     try {
-      const response = await fetch(primaryApiUrl);
+      const anime = await fetchAnimeDetails(baseAnimeId);
+      displayAnimeDetails(anime, episodeNumber);
 
-      if (!response.ok) {
-        throw new Error('Error fetching data from primary API:', response.statusText);
-      }
+      const apiUrl = `https://api.amvstr.me/api/v2/stream/${episodeId}`;
+      console.log(apiUrl);
 
-      const data = await response.json();
-      const filteredResults = filterResults(data.results.slice(0, 20));
+      const data = await fetch(apiUrl);
+      if (data.ok) {
+        const jsonResponse = await data.json();
 
-      displayImages(filteredResults);
-      updateNextPageButton(data.results.length);
+        if (jsonResponse && jsonResponse.stream && jsonResponse.stream.multi && jsonResponse.stream.multi.main && jsonResponse.stream.multi.main.url) {
+          const mainUrl = jsonResponse.stream.multi.main.url;
 
-      return data.total_pages;
-    } catch (primaryApiError) {
-      console.error('Error:', primaryApiError);
+          const video = document.querySelector("#player");
+          const player = new Plyr(video, {
+            controls: [
+              "play-large",
+              "rewind",
+              "play",
+              "fast-forward",
+              "progress",
+              "current-time",
+              "duration",
+              "mute",
+              "volume",
+              "captions",
+              "settings",
+              "pip",
+              "airplay",
+              "fullscreen",
+            ],
+          });
 
-      console.log('Fetching data from fallback API...');
-      try {
-        const fallbackResponse = await fetch(fallbackUrl);
+          const watermark = document.createElement('div');
+          watermark.innerHTML = '<p style="position: absolute; top: -18px; right: 20px; color: pink; font-size: 24px; font-family: Elephant, sans-serif; display: inline-block; opacity: 0.5;">AnimeSite</p>' +
+            '<img src="/assets/images/Watermark.png" style="position: absolute; top: -8px; right: 136px; width: 80px; height: auto; opacity: 0.4;">';
+          document.querySelector('.plyr__video-wrapper').appendChild(watermark);
 
-        if (!fallbackResponse.ok) {
-          throw new Error('Error fetching data from fallback API:', fallbackResponse.statusText);
-        }
+          document.addEventListener('fullscreenchange', () => {
+            const isFullscreen = document.fullscreenElement !== null;
+            watermark.style.top = isFullscreen ? '20px' : '-20px';
+            watermark.style.right = isFullscreen ? '20px' : '10px';
+          });
 
-        const fallbackData = await fallbackResponse.json();
-        const fallbackFilteredResults = filterResults(fallbackData.results.slice(0, 20));
-
-        displayImages(fallbackFilteredResults);
-        updateNextPageButton(fallbackData.results.length);
-
-        return fallbackData.total_pages;
-      } catch (fallbackApiError) {
-        console.error('Error:', fallbackApiError);
-      }
-    } finally {
-      hideLoadingSpinner();
-    }
-  }
-
-  function updateNextPageButton(resultsCount) {
-    nextPageButton.disabled = resultsCount <= 19;
-    prevPageButton.disabled = pageNumber <= 1;
-  }
-
-  const pagination = document.getElementById('pagination');
-
-  function displayImages(results) {
-    searchResults.innerHTML = '';
-
-    if (results.length > 0) {
-      results.forEach((item) => {
-        const imgContainer = document.createElement('div'); 
-        const img = document.createElement('img');
-        img.src = item.image;
-        img.alt = item.title;
-        img.title = item.title;
-        img.classList.add('search-result-image');
-        img.tabIndex = 0; 
-        img.addEventListener('click', () => {
-          sessionStorage.setItem('selectedAnime', JSON.stringify(item));
-          window.location.href = `anime-details.html?animeId=${item.id}`;
-        });
-        img.addEventListener('keydown', function(event) {
-          if (event.keyCode === 13) {
-            sessionStorage.setItem('selectedAnime', JSON.stringify(item));
-            window.location.href = `anime-details.html?animeId=${item.id}`;
+          function throttle(func, delay) {
+            let lastCall = 0;
+            return function(...args) {
+              const now = new Date().getTime();
+              if (now - lastCall < delay) {
+                return;
+              }
+              lastCall = now;
+              return func(...args);
+            };
           }
-        });
 
-        const name = document.createElement('span'); 
-        name.textContent = item.title;
-        name.classList.add('search-result-name');
-        imgContainer.appendChild(img); 
-        imgContainer.appendChild(name);
+          function storeVideoProgress(currentTime) {
+            localStorage.setItem(episodeId, currentTime.toString());
+            console.log("Storing time: ", currentTime);
+          }
 
-        searchResults.appendChild(imgContainer); 
-      });
+          const throttledStoreVideoProgress = throttle(storeVideoProgress, 10000);
 
-      togglePaginationVisibility(true);
-    } else {
-      const noResultsMessage = document.createElement('p');
-      noResultsMessage.textContent = 'No results found. Please try a different search term.';
-      searchResults.appendChild(noResultsMessage);
-      togglePaginationVisibility(false);
+          player.on("timeupdate", function() {
+            throttledStoreVideoProgress(player.currentTime);
+          });
+
+          player.on("pause", function() {
+            storeVideoProgress(player.currentTime);
+            console.log("Pause event fired. Current time:", player.currentTime);
+          });
+
+          player.on("ended", function() {
+            storeVideoProgress(player.currentTime);
+            console.log("Video ended. Final time:", player.currentTime);
+          });
+
+          video.addEventListener("canplaythrough", function() {
+            const savedTime = parseFloat(localStorage.getItem(episodeId)) || 0;
+            if (player.playing !== true && player.currentTime !== savedTime) {
+              player.currentTime = savedTime;
+            }
+            video.play();
+          });
+
+          if (Hls.isSupported()) {
+            const hls = new Hls();
+            hls.loadSource(mainUrl);
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED, function() {
+              video.addEventListener("canplaythrough", function() {
+                const savedTime = parseFloat(localStorage.getItem(episodeId)) || 0;
+                if (player.playing !== true && player.currentTime !== savedTime) {
+                  player.currentTime = savedTime;
+                }
+                video.play();
+              });
+            });
+          } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+            video.src = mainUrl;
+            video.addEventListener("canplaythrough", function() {
+              const savedTime = parseFloat(localStorage.getItem(episodeId)) || 0;
+              if (player.playing !== true && player.currentTime !== savedTime) {
+                player.currentTime = savedTime;
+              }
+              video.play();
+            });
+          } else {
+            console.error("This is a legacy browser that does not support HLS.");
+          }
+        } else {
+          console.error("JSON response does not have the expected structure.");
+        }
+      } else {
+        console.error("Error fetching server URL:", data.statusText);
+      }
+    } catch (error) {
+      console.error("Error:", error);
     }
   }
 
-  function togglePaginationVisibility(visible) {
-    if (visible) {
-      pagination.classList.remove('hidden');
-    } else {
-      pagination.classList.add('hidden');
-    }
-  }
-
-  function updatePaginationButtons() {
-    prevPageButton.disabled = pageNumber <= 1;
-  }
+  main();
 });
