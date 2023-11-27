@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   if (animeId) {
-    const primaryApiUrl = `https://animetrix-api.vercel.app/anime/gogoanime/info/${animeId}`;
+    const primaryApiUrl = `https://api-consumet-org-six.vercel.app/anime/gogoanime/info/${animeId}`;
     const fallbackUrl = `https://api-consumet-psi.vercel.app/anime/gogoanime/info/${animeId}`;
 
     try {
