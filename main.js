@@ -26,15 +26,18 @@ document.addEventListener('DOMContentLoaded', () => {
     await fetchAndDisplayData(query, pageNumber);
   });
 
-  window.onload = function() {
-    const savedToggleState = JSON.parse(localStorage.getItem('toggleState'));
+window.onload = function() {
+  const savedToggleState = JSON.parse(localStorage.getItem('toggleState'));
+  if (savedToggleState === null) {
+    localStorage.setItem('toggleState', JSON.stringify(true));
+    toggleSwitch.checked = true;
+    toggleState.textContent = 'Sub';
+  } else {
     toggleSwitch.checked = savedToggleState;
-    if (toggleSwitch.checked) {
-      toggleState.textContent = 'Sub';
-    } else {
-      toggleState.textContent = 'Dub';
-    }
-  };
+    toggleState.textContent = savedToggleState ? 'Sub' : 'Dub';
+  }
+};
+
 
   toggleSwitch.addEventListener('change', function() {
     localStorage.setItem('toggleState', JSON.stringify(this.checked));
