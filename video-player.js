@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", () => {
   async function main() {
     const prevEpisodeButton = document.getElementById("prev-episode");
     const nextEpisodeButton = document.getElementById("next-episode");
-    let videoStarted = true;
 
     function getParameterByName(name, url) {
       if (!url) url = window.location.href;
@@ -22,8 +21,6 @@ document.addEventListener("DOMContentLoaded", () => {
       prevEpisodeButton.disabled = episodeNumber <= 1;
     }
 
-    updateEpisodeButtons();
-
     prevEpisodeButton.addEventListener("click", () => {
       const prevEpisodeNumber = episodeNumber - 1;
       const prevEpisodeId = `${baseAnimeId}-${prevEpisodeNumber}`;
@@ -35,6 +32,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const nextEpisodeId = `${baseAnimeId}-${nextEpisodeNumber}`;
       window.location.href = `video-player.html?episodeNumber=${nextEpisodeNumber}&episodeId=${nextEpisodeId}`;
     });
+
+    updateEpisodeButtons();
 
     async function fetchAnimeDetails(animeId) {
       const primaryApiUrl = `https://api-consumet-org-six.vercel.app/anime/gogoanime/${animeId}`;
@@ -92,49 +91,11 @@ document.addEventListener("DOMContentLoaded", () => {
               "settings",
               "pip",
               "airplay",
-              "fullscreen",
+              "fullscreen"
             ],
-          });
-
-          function throttle(func, delay) {
-            let lastCall = 0;
-            return function(...args) {
-              const now = new Date().getTime();
-              if (now - lastCall < delay) {
-                return;
-              }
-              lastCall = now;
-              return func(...args);
-            };
-          }
-
-          function storeVideoProgress(currentTime) {
-            localStorage.setItem(episodeId, currentTime.toString());
-            console.log("Storing time: ", currentTime);
-          }
-
-          const throttledStoreVideoProgress = throttle(storeVideoProgress, 10000);
-
-          player.on("timeupdate", function() {
-            throttledStoreVideoProgress(player.currentTime);
-          });
-
-          player.on("pause", function() {
-            storeVideoProgress(player.currentTime);
-            console.log("Pause event fired. Current time:", player.currentTime);
-          });
-
-          player.on("ended", function() {
-            storeVideoProgress(player.currentTime);
-            console.log("Video ended. Final time:", player.currentTime);
-          });
-
-          video.addEventListener("canplaythrough", function() {
-            const savedTime = parseFloat(localStorage.getItem(episodeId)) || 0;
-            if (player.playing !== true && player.currentTime !== savedTime) {
-              player.currentTime = savedTime;
-            }
-            video.play();
+            autoplay: false,
+            loop: { active: false },
+            keyboard: { focused: true, global: true }
           });
 
           if (Hls.isSupported()) {
@@ -142,23 +103,10 @@ document.addEventListener("DOMContentLoaded", () => {
             hls.loadSource(mainUrl);
             hls.attachMedia(video);
             hls.on(Hls.Events.MANIFEST_PARSED, function() {
-              video.addEventListener("canplaythrough", function() {
-                const savedTime = parseFloat(localStorage.getItem(episodeId)) || 0;
-                if (player.playing !== true && player.currentTime !== savedTime) {
-                  player.currentTime = savedTime;
-                }
-                video.play();
-              });
             });
+
           } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
             video.src = mainUrl;
-            video.addEventListener("canplaythrough", function() {
-              const savedTime = parseFloat(localStorage.getItem(episodeId)) || 0;
-              if (player.playing !== true && player.currentTime !== savedTime) {
-                player.currentTime = savedTime;
-              }
-              video.play();
-            });
           } else {
             console.error("This is a legacy browser that does not support HLS.");
           }
