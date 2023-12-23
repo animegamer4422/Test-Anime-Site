@@ -69,6 +69,7 @@ a {
 }
 
 /* the sub/dub toggle */
+/* the sub/dub toggle */
 .switch-container {
   display: flex;
   align-items: center;
@@ -120,7 +121,8 @@ input:checked + .slider {
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #f321e2;
+  outline: 2px solid white; /* Replace glow with white border */
+  outline-offset: 2px; /* Add space between border and slider */
 }
 
 input:checked + .slider:before {
@@ -623,15 +625,19 @@ footer {
   border: 2px solid #e91e63;
   border-radius: 15px; 
   background-color: #fff;
+  color: #333; /* Default text color */
   cursor: pointer;
   outline: none;
   position: relative; 
   z-index: 1; 
+  transition: border-color 0.3s ease-in-out, background-color 0.3s ease-in-out, color 0.3s ease-in-out; /* Smooth transition for visual changes */
 }
 
 .custom-dropdown:hover,
 .custom-dropdown:focus {
-  border-color: #ff4081;
+  background-color: #282a36;
+  color: #fff; /* Changing text color for better visibility on hover/focus */
+  border-color: #f06292 /* Change border color for a noticeable effect */
 }
 
 .dropdown-open {

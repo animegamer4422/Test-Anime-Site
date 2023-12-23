@@ -16,15 +16,14 @@ document.addEventListener('DOMContentLoaded', () => {
     await fetchAndDisplayData(query, pageNumber);
   });
 
-  prevPageButton.addEventListener('click', async () => {
-    pageNumber--;
-    await fetchAndDisplayData(query, pageNumber);
+  toggleSwitch.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' || event.keyCode === 13) {
+      event.preventDefault(); // Prevent form submission
+      toggleSwitch.click(); // Toggle the switch
+    }
   });
 
-  nextPageButton.addEventListener('click', async () => {
-    pageNumber++;
-    await fetchAndDisplayData(query, pageNumber);
-  });
+
 
 window.onload = function() {
   const savedToggleState = JSON.parse(localStorage.getItem('toggleState'));
@@ -37,7 +36,6 @@ window.onload = function() {
     toggleState.textContent = savedToggleState ? 'Sub' : 'Dub';
   }
 };
-
 
   toggleSwitch.addEventListener('change', function() {
     localStorage.setItem('toggleState', JSON.stringify(this.checked));
@@ -128,13 +126,21 @@ window.onload = function() {
     }
   }
 
+  const pagination = document.getElementById('pagination');
+  nextPageButton.addEventListener('click', async () => {
+    pageNumber++;
+    await fetchAndDisplayData(query, pageNumber);
+  });
+
+  prevPageButton.addEventListener('click', async () => {
+    pageNumber--;
+    await fetchAndDisplayData(query, pageNumber);
+  });
 
   function updateNextPageButton(resultsCount) {
     nextPageButton.disabled = resultsCount <= 19;
     prevPageButton.disabled = pageNumber <= 1;
   }
-
-  const pagination = document.getElementById('pagination');
 
   function displayImages(results) {
     searchResults.innerHTML = '';
@@ -183,9 +189,5 @@ window.onload = function() {
     } else {
       pagination.classList.add('hidden');
     }
-  }
-
-  function updatePaginationButtons() {
-    prevPageButton.disabled = pageNumber <= 1;
   }
 });

@@ -81,7 +81,6 @@ async function displayDetails(anime) {
 
 async function displayEpisodes(allEpisodes, startEpisode, endEpisode) {
   const episodesList = document.getElementById('anime-episodes');
-
   episodesList.innerHTML = ''; 
 
   for (let i = startEpisode - 1; i < endEpisode; i++) {
@@ -89,27 +88,35 @@ async function displayEpisodes(allEpisodes, startEpisode, endEpisode) {
     const listItem = document.createElement('li');
     const link = document.createElement('a');
     link.textContent = `Episode ${episode.number}`;
+    link.tabIndex = 0; // Make the link focusable
+    link.href = `javascript:void(0);`; // Prevent default navigation
 
     link.dataset.episodeNumber = episode.number;
     link.dataset.episodeId = episode.id;
     link.classList.add('episode');
 
+    // Handle click and Enter key press
+    link.addEventListener('click', navigateToEpisode);
+    link.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        navigateToEpisode(event);
+      }
+    });
+
     listItem.appendChild(link);
     episodesList.appendChild(listItem);
   }
+}
 
-  document.querySelectorAll('.episode').forEach(episodeLink => {
-    episodeLink.addEventListener('click', async (event) => {
-      const episodeNumber = event.target.dataset.episodeNumber;
-      const episodeId = event.target.dataset.episodeId;
-
-      window.location.href = `video-player.html?episodeNumber=${episodeNumber}&episodeId=${episodeId}`;
-    });
-  });
+function navigateToEpisode(event) {
+  const episodeNumber = event.target.dataset.episodeNumber;
+  const episodeId = event.target.dataset.episodeId;
+  window.location.href = `video-player.html?episodeNumber=${episodeNumber}&episodeId=${episodeId}`;
 }
 
 function populateEpisodeDropdown(allEpisodes) {
   const episodeDropdown = document.getElementById('episode-dropdown');
+  episodeDropdown.tabIndex = 0;
   const maxEpisodesPerRange = 100;
   let startEpisode = 1;
 
@@ -123,5 +130,11 @@ function populateEpisodeDropdown(allEpisodes) {
     episodeDropdown.appendChild(option);
 
     startEpisode += maxEpisodesPerRange;
+  }
+  if (allEpisodes.length > 1) {
+    episodeDropdown.tabIndex = 0;
+  } else {
+    // If there is only one option, no need to focus on the dropdown
+    episodeDropdown.tabIndex = -1;
   }
 }
